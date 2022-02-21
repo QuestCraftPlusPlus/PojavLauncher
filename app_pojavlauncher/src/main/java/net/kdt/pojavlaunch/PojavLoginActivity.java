@@ -350,6 +350,7 @@ public class PojavLoginActivity extends BaseActivity
             Tools.copyAssetFile(this, "artifacts/mcxr-core-0.1.1+null.jar", Tools.DIR_GAME_NEW + "/mods", false);
             Tools.copyAssetFile(this, "artifacts/titleworlds-0.0.1.jar", Tools.DIR_GAME_NEW + "/mods", false);
             Tools.copyAssetFile(this, "artifacts/fabric-api-0.46.4+1.18.jar", Tools.DIR_GAME_NEW + "/mods", false);
+            Tools.copyAssetFile(this, "titleworlds", Tools.DIR_GAME_NEW, false);
             // TODO: Remove after implement.
             Tools.copyAssetFile(this, "launcher_profiles.json", Tools.DIR_GAME_NEW, false);
             Tools.copyAssetFile(this,"resolv.conf",Tools.DIR_DATA, true);
