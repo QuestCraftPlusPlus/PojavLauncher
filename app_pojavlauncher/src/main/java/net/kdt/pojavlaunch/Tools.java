@@ -81,7 +81,7 @@ public final class Tools {
             DIR_GAME_HOME = new File(Environment.getExternalStorageDirectory(),"games/PojavLauncher").getAbsolutePath();
         }
         DIR_GAME_NEW = DIR_GAME_HOME + "/.minecraft";
-        DIR_HOME_VERSION = DIR_GAME_NEW + "/components/versions";
+        DIR_HOME_VERSION = DIR_GAME_NEW + "/components/.minecraft/versions";
         DIR_HOME_LIBRARY = DIR_GAME_NEW + "/libraries";
         DIR_HOME_CRASH = DIR_GAME_NEW + "/crash-reports";
         ASSETS_PATH = DIR_GAME_NEW + "/assets";
