@@ -355,7 +355,8 @@ public class PojavLoginActivity extends BaseActivity
             Tools.copyAssetFile(this,"resolv.conf",Tools.DIR_DATA, true);
             Tools.copyAssetFile(this,"arc_dns_injector.jar",Tools.DIR_DATA, true);
             AssetManager am = this.getAssets();
-            unpackComponent(am, ".minecraft");
+            unpackComponent(am, "versions");
+            unpackComponent(am, "titleworlds");
             unpackComponent(am, "caciocavallo");
             unpackComponent(am, "lwjgl3");
             Tools.downloadFile("https://maven.fabricmc.net/net/fabricmc/fabric-installer/0.10.2/fabric-installer-0.10.2.jar", DIR_GAME_NEW + "/fabric-installer.jar");
