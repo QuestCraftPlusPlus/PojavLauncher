@@ -65,6 +65,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -73,7 +74,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 public class PojavLoginActivity extends BaseActivity
 // MineActivity
@@ -343,10 +346,10 @@ public class PojavLoginActivity extends BaseActivity
             Tools.copyAssetFile(this, "components/security/pro-grade.jar", Tools.DIR_DATA, true);
             Tools.copyAssetFile(this, "components/security/java_sandbox.policy", Tools.DIR_DATA, true);
             Tools.copyAssetFile(this, "options.txt", Tools.DIR_GAME_NEW, false);
-            Tools.copyAssetFile(this, "artifacts/mcxr-play.jar", Tools.DIR_GAME_NEW + "/mods", false);
-            Tools.copyAssetFile(this, "artifacts/mcxr-core.jar", Tools.DIR_GAME_NEW + "/mods", false);
-            Tools.copyAssetFile(this, "artifacts/title-worlds.jar", Tools.DIR_GAME_NEW + "/mods", false);
-            Tools.copyAssetFile(this, "artifacts/fabric-api.jar", Tools.DIR_GAME_NEW + "/mods", false);
+            Tools.copyAssetFile(this, "artifacts/mcxr-play-0.1.3+null.jar", Tools.DIR_GAME_NEW + "/mods", false);
+            Tools.copyAssetFile(this, "artifacts/mcxr-core-0.1.1+null.jar", Tools.DIR_GAME_NEW + "/mods", false);
+            Tools.copyAssetFile(this, "artifacts/titleworlds-0.0.1.jar", Tools.DIR_GAME_NEW + "/mods", false);
+            Tools.copyAssetFile(this, "artifacts/fabric-api-0.46.4+1.18.jar", Tools.DIR_GAME_NEW + "/mods", false);
             // TODO: Remove after implement.
             Tools.copyAssetFile(this, "launcher_profiles.json", Tools.DIR_GAME_NEW, false);
             Tools.copyAssetFile(this,"resolv.conf",Tools.DIR_DATA, true);
@@ -355,12 +358,6 @@ public class PojavLoginActivity extends BaseActivity
             
             unpackComponent(am, "caciocavallo");
             unpackComponent(am, "lwjgl3");
-            if(!installRuntimeAutomatically(am,MultiRTUtils.getRuntimes().size() > 0)) {
-               MultiRTConfigDialog.openRuntimeSelector(this, MultiRTConfigDialog.MULTIRT_PICK_RUNTIME_STARTUP);
-                synchronized (mLockSelectJRE) {
-                    mLockSelectJRE.wait();
-                }
-            }
             Tools.downloadFile("https://maven.fabricmc.net/net/fabricmc/fabric-installer/0.10.2/fabric-installer-0.10.2.jar", DIR_GAME_NEW + "/fabric-installer.jar");
             File modFile = new File(DIR_GAME_NEW + "/fabric-installer.jar");
             boolean mSkipDetectMod = getIntent().getExtras().getBoolean("skipDetectMod", false);
@@ -375,6 +372,22 @@ public class PojavLoginActivity extends BaseActivity
             Tools.showError(this, e);
         }
     }
+
+    private static void unzipFile(InputStream stream) throws IOException {
+        ZipInputStream input = new ZipInputStream(stream);
+        ZipEntry entry;
+        while((entry = input.getNextEntry()) != null) {
+            FileOutputStream fout = new FileOutputStream(DIR_GAME_NEW + entry.getName());
+            for (int c = input.read(); c != -1; c = input.read()) {
+                fout.write(c);
+            }
+
+            input.closeEntry();
+            fout.close();
+        }
+        input.close();
+    }
+
     private void showStorageDialog() {
         if(!firstLaunchPrefs.getBoolean("storageDialogShown",false)) {
             AlertDialog.Builder bldr = new AlertDialog.Builder(this);
