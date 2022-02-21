@@ -308,6 +308,41 @@ public class PojavLoginActivity extends BaseActivity
             }
         }
     }
+
+    private void unpackComponent(AssetManager am, String output, String component) throws IOException {
+        File versionFile = new File(Tools.DIR_GAME_HOME + "/" + component + "/version");
+        InputStream is = am.open("components/" + component + "/version");
+        if(!versionFile.exists()) {
+            if (versionFile.getParentFile().exists() && versionFile.getParentFile().isDirectory()) {
+                FileUtils.deleteDirectory(versionFile.getParentFile());
+            }
+            versionFile.getParentFile().mkdir();
+
+            Log.i("UnpackPrep", component + ": Pack was installed manually, or does not exist, unpacking new...");
+            String[] fileList = am.list("components/" + component);
+            for(String s : fileList) {
+                Tools.copyAssetFile(this, "components/" + component + "/" + s, output + "/" + component, true);
+            }
+        } else {
+            FileInputStream fis = new FileInputStream(versionFile);
+            String release1 = Tools.read(is);
+            String release2 = Tools.read(fis);
+            if (!release1.equals(release2)) {
+                if (versionFile.getParentFile().exists() && versionFile.getParentFile().isDirectory()) {
+                    FileUtils.deleteDirectory(versionFile.getParentFile());
+                }
+                versionFile.getParentFile().mkdir();
+
+                String[] fileList = am.list("components/" + component);
+                for (String s : fileList) {
+                    Tools.copyAssetFile(this, "components/" + component + "/" + s, output + "/" + component, true);
+                }
+            } else {
+                Log.i("UnpackPrep", component + ": Pack is up-to-date with the launcher, continuing...");
+            }
+        }
+    }
+
     public static void disableSplash(String dir) {
         mkdirs(dir + "/config");
         File forgeSplashFile = new File(dir, "config/splash.properties");
@@ -355,8 +390,8 @@ public class PojavLoginActivity extends BaseActivity
             Tools.copyAssetFile(this,"resolv.conf",Tools.DIR_DATA, true);
             Tools.copyAssetFile(this,"arc_dns_injector.jar",Tools.DIR_DATA, true);
             AssetManager am = this.getAssets();
-            unpackComponent(am, "titleworlds");
-            unpackComponent(am, "versions");
+            unpackComponent(am, "titleworlds", DIR_GAME_NEW);
+            unpackComponent(am, "versions", DIR_GAME_NEW);
             unpackComponent(am, "caciocavallo");
             unpackComponent(am, "lwjgl3");
             Tools.downloadFile("https://maven.fabricmc.net/net/fabricmc/fabric-installer/0.10.2/fabric-installer-0.10.2.jar", DIR_GAME_NEW + "/fabric-installer.jar");
