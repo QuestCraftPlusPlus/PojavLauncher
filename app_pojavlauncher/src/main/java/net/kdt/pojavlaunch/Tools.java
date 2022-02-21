@@ -6,34 +6,26 @@ import android.database.Cursor;
 import android.net.*;
 import android.os.*;
 import android.provider.OpenableColumns;
-import android.system.*;
 import android.util.*;
 import com.google.gson.*;
-import com.oracle.dalvik.*;
+
 import java.io.*;
 import java.lang.reflect.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.zip.*;
 import net.kdt.pojavlaunch.prefs.*;
 import net.kdt.pojavlaunch.utils.*;
 import net.kdt.pojavlaunch.value.*;
-import net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles;
 
 import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.FileUtils;
 import org.lwjgl.glfw.*;
 import android.view.*;
-import android.widget.Toast;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.P;
-import static android.os.Build.VERSION_CODES.Q;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_IGNORE_NOTCH;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_NOTCH_SIZE;
 
@@ -89,7 +81,7 @@ public final class Tools {
             DIR_GAME_HOME = new File(Environment.getExternalStorageDirectory(),"games/PojavLauncher").getAbsolutePath();
         }
         DIR_GAME_NEW = DIR_GAME_HOME + "/.minecraft";
-        DIR_HOME_VERSION = DIR_GAME_NEW + "/versions";
+        DIR_HOME_VERSION = DIR_GAME_NEW + "/components/versions";
         DIR_HOME_LIBRARY = DIR_GAME_NEW + "/libraries";
         DIR_HOME_CRASH = DIR_GAME_NEW + "/crash-reports";
         ASSETS_PATH = DIR_GAME_NEW + "/assets";

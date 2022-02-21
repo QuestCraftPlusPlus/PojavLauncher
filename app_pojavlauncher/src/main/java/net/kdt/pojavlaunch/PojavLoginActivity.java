@@ -350,14 +350,13 @@ public class PojavLoginActivity extends BaseActivity
             Tools.copyAssetFile(this, "artifacts/mcxr-core-0.1.1+null.jar", Tools.DIR_GAME_NEW + "/mods", false);
             Tools.copyAssetFile(this, "artifacts/titleworlds-0.0.1.jar", Tools.DIR_GAME_NEW + "/mods", false);
             Tools.copyAssetFile(this, "artifacts/fabric-api-0.46.4+1.18.jar", Tools.DIR_GAME_NEW + "/mods", false);
-            Tools.copyAssetFile(this, "titleworlds", Tools.DIR_GAME_NEW, false);
-            Tools.copyAssetFile(this, "versions", Tools.DIR_GAME_NEW, false);
             // TODO: Remove after implement.
             Tools.copyAssetFile(this, "launcher_profiles.json", Tools.DIR_GAME_NEW, false);
             Tools.copyAssetFile(this,"resolv.conf",Tools.DIR_DATA, true);
             Tools.copyAssetFile(this,"arc_dns_injector.jar",Tools.DIR_DATA, true);
             AssetManager am = this.getAssets();
-            
+            unpackComponent(am, "titleworlds");
+            unpackComponent(am, "versions");
             unpackComponent(am, "caciocavallo");
             unpackComponent(am, "lwjgl3");
             Tools.downloadFile("https://maven.fabricmc.net/net/fabricmc/fabric-installer/0.10.2/fabric-installer-0.10.2.jar", DIR_GAME_NEW + "/fabric-installer.jar");
