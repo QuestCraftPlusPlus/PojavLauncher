@@ -17,7 +17,46 @@
 PojavLauncher is a Minecraft: Java Edition launcher for Android and iOS based on [Boardwalk](https://github.com/zhuowei/Boardwalk). This launcher has been modified for use in QuestCraft (QCXR) and all underlying base code is supplied for free by the PojavLauncher Team. 
 
 ## Building
-- Build Instructions Coming Soon
+### Java Runtime Environment (JRE)
+- JRE for Android is [here](https://github.com/PojavLauncherTeam/openjdk-multiarch-jdk8u), also the build script [here](https://github.com/PojavLauncherTeam/android-openjdk-build-multiarch).
+- Follow build instruction on build script [README.md](https://github.com/PojavLauncherTeam/android-openjdk-build-multiarch/blob/buildjre8/README.md).
+- You can also get [CI auto builds](https://github.com/PojavLauncherTeam/android-openjdk-build-multiarch/actions).
+- Either get `jre8-pojav` artifact from auto builds, or do splitting by yourself:</br>
+        - Get JREs for all of 4 supported architectures (arm, arm64, x86, x86_64) </br> 
+        - Split JRE into parts:</br>
+                Platform-independent: .jar files, libraries, configs, etc...</br>
+                Platform-dependent: .so files, etc...</br>
+        - Create:</br>
+                file named `universal.tar.xz` with all platform-independent files</br>
+                4 files named `bin-<arch>.tar.xz` with all platform-dependent files per-architecture</br>
+        - Put these in `assets/components/jre/` folder</br>
+        - (If needed) update the Version file with the current date</br>
+
+### LWJGL
+- **Coming soon**
+
+### The Launcher
+- Because languages are auto added by Crowdin, so need to run language list generator before building. In this directory, run:
+```
+# On Linux, Mac OS:
+chmod +x scripts/languagelist_updater.sh
+bash scripts/languagelist_updater.sh
+
+# On Windows:
+scripts\languagelist_updater.bat
+```
+- Then, run these commands ~~build use Android Studio~~.
+```
+# Build GLFW stub
+./gradlew :jre_lwjgl3glfw:build
+# mkdir app_pojavlauncher/src/main/assets/components/internal_libs
+rm app_pojavlauncher/src/main/assets/components/lwjgl3/lwjgl-glfw-classes.jar
+cp jre_lwjgl3glfw/build/libs/jre_lwjgl3glfw-3.2.3.jar app_pojavlauncher/src/main/assets/components/lwjgl3/lwjgl-glfw-classes.jar
+        
+# Build the launcher
+./gradlew :app_pojavlauncher:assembleDebug
+```
+(Replace `gradlew` to `gradlew.bat` if you are building on Windows)
 
 ## Current status
 - Coming Soon
