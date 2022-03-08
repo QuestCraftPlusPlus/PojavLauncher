@@ -35,6 +35,7 @@ import net.kdt.pojavlaunch.extra.ExtraListener;
 import net.kdt.pojavlaunch.fragments.ConsoleFragment;
 import net.kdt.pojavlaunch.fragments.CrashFragment;
 import net.kdt.pojavlaunch.fragments.LauncherFragment;
+import net.kdt.pojavlaunch.fragments.ModsFragment;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
 import net.kdt.pojavlaunch.prefs.screens.LauncherPreferenceFragment;
 import net.kdt.pojavlaunch.value.MinecraftAccount;
@@ -57,6 +58,7 @@ public class PojavLauncherActivity extends BaseLauncherActivity
             if (position == 0) return new LauncherFragment();
             if (position == 1) return new ConsoleFragment();
             if (position == 2) return new CrashFragment();
+            if (position == 3) return new ModsFragment();
             if (position == 4) return new LauncherPreferenceFragment();
             return null;
         }
@@ -101,7 +103,7 @@ public class PojavLauncherActivity extends BaseLauncherActivity
         Tabs[1] = findViewById(R.id.btnTab2);
         Tabs[2] = findViewById(R.id.btnTab3);
         Tabs[3] = findViewById(R.id.btnTab4);
-
+        Tabs[4] = findViewById(R.id.btnTab5);
 
         if (BuildConfig.DEBUG) {
             Toast.makeText(this, "Launcher process id: " + android.os.Process.myPid(), Toast.LENGTH_LONG).show();
