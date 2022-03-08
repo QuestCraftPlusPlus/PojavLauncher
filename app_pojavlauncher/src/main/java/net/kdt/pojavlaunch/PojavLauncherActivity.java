@@ -57,13 +57,13 @@ public class PojavLauncherActivity extends BaseLauncherActivity
             if (position == 0) return new LauncherFragment();
             if (position == 1) return new ConsoleFragment();
             if (position == 2) return new CrashFragment();
-            if (position == 3) return new LauncherPreferenceFragment();
+            if (position == 4) return new LauncherPreferenceFragment();
             return null;
         }
 
         @Override
         public int getItemCount() {
-            return 4;
+            return 5;
         }
     }
 
@@ -71,7 +71,7 @@ public class PojavLauncherActivity extends BaseLauncherActivity
     private TextView tvConnectStatus;
     private Spinner accountSelector;
     private ViewPager2 viewPager;
-    private final Button[] Tabs = new Button[4];
+    private final Button[] Tabs = new Button[5];
     private View selectedTab;
     private ImageView accountFaceImageView;
 

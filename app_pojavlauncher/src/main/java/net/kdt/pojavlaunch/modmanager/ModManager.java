@@ -73,7 +73,7 @@ public class ModManager {
         writer.write(String.valueOf(modsJson));
         writer.close();
     }
-    
+
     //Convert to use beans later
     public static ArrayList<ModData> listMods(String instanceName) throws FileNotFoundException {
         Gson gson = new Gson();
