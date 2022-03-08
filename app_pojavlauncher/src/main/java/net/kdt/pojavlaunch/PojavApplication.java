@@ -12,6 +12,7 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 
+import net.kdt.pojavlaunch.modmanager.ModManager;
 import net.kdt.pojavlaunch.utils.*;
 
 public class PojavApplication extends Application
@@ -20,7 +21,7 @@ public class PojavApplication extends Application
 	
 	@Override
 	public void onCreate() {
-		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
+		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override
 			public void uncaughtException(Thread thread, Throwable th) {
 				boolean storagePermAllowed = Build.VERSION.SDK_INT < 23 || ActivityCompat.checkSelfPermission(PojavApplication.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
@@ -42,10 +43,10 @@ public class PojavApplication extends Application
 					Log.e(CRASH_REPORT_TAG, " - Exception attempt saving crash stack trace:", th2);
 					Log.e(CRASH_REPORT_TAG, " - The crash stack trace was:", th);
 				}
-				
+
 				FatalErrorActivity.showError(PojavApplication.this, crashFile.getAbsolutePath(), storagePermAllowed, th);
 				// android.os.Process.killProcess(android.os.Process.myPid());
-				
+
 				BaseMainActivity.fullyExit();
 			}
 		});
@@ -75,6 +76,12 @@ public class PojavApplication extends Application
 			Intent ferrorIntent = new Intent(this, FatalErrorActivity.class);
 			ferrorIntent.putExtra("throwable", th);
 			startActivity(ferrorIntent);
+		}
+
+		try {
+			ModManager.init();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
     

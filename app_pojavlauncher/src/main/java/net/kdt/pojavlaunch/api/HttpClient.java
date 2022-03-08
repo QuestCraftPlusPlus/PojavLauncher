@@ -2,6 +2,7 @@ package net.kdt.pojavlaunch.api;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import net.kdt.pojavlaunch.Tools;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,12 +12,10 @@ import java.net.URL;
 
 public class HttpClient {
 
-    private static final String USER_AGENT = "QuestCraft";
-
     public static JsonElement get(String url) throws IOException {
         HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
         con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", USER_AGENT);
+        con.setRequestProperty("User-Agent", Tools.APP_NAME);
 
         if (con.getResponseCode() == 200) {
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
