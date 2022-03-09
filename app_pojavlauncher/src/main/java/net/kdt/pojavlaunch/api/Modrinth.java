@@ -1,40 +1,139 @@
 package net.kdt.pojavlaunch.api;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import android.util.Log;
+import com.google.gson.annotations.SerializedName;
+import net.kdt.pojavlaunch.fragments.ModsFragment;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.List;
 
 public class Modrinth {
 
-    private static final String MODRINTH_API = "https://api.modrinth.com/v2";
+    private static final String BASE_URL = "https://api.modrinth.com/v2/";
+    private static Retrofit retrofit;
+
+    public static Retrofit getClient(){
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofit;
+    }
+
+    public interface ModrinthProjectInf {
+        @GET("project/{slug}")
+        Call<ModrinthProject> getProject(@Path("slug") String slug);
+    }
+
+    public interface ModrinthVersionsInf {
+        @GET("project/{slug}/version")
+        Call<List<ModrinthVersion>> getVersions(@Path("slug") String slug);
+    }
+
+    public interface ModrinthSearchInf {
+        @GET("search")
+        Call<ModrinthSearchResult> searchMods(@Query("limit") int limit);
+    }
+
+    public static class ModrinthProject {
+        @SerializedName("title")
+        private String title;
+        @SerializedName("icon_url")
+        private String iconUrl;
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getIconUrl() {
+            return iconUrl;
+        }
+    }
+
+    public static class ModrinthVersion {
+        @SerializedName("id")
+        private String id;
+        @SerializedName("loaders")
+        private List<String> loaders;
+        @SerializedName("game_versions")
+        private List<String> gameVersions;
+        @SerializedName("files")
+        private List<ModrinthFile> files;
+
+        public String getId() {
+            return id;
+        }
+
+        public List<String> getLoaders() {
+            return loaders;
+        }
+
+        public List<String> getGameVersions() {
+            return gameVersions;
+        }
+
+        public List<ModrinthFile> getFiles() {
+            return files;
+        }
+
+        public static class ModrinthFile {
+            @SerializedName("url")
+            private String url;
+            @SerializedName("filename")
+            private String filename;
+
+            public String getUrl() {
+                return url;
+            }
+
+            public String getFilename() {
+                return filename;
+            }
+        }
+    }
+
+    public static class ModrinthSearchResult {
+        @SerializedName("hits")
+        private List<ModResult> hits;
+
+        public List<ModResult> getHits() {
+            return hits;
+        }
+    }
 
     public static ModData getModData(String slug, String gameVersion) throws IOException {
-        JsonElement response = HttpClient.get(MODRINTH_API + "/project/" + slug);
-        if (response == null) return null;
-        JsonObject project = response.getAsJsonObject();
+        ModrinthProjectInf projectInf = getClient().create(ModrinthProjectInf.class);
+        ModrinthProject project = projectInf.getProject(slug).execute().body();
 
-        JsonElement response1 = HttpClient.get(MODRINTH_API + "/project/" + slug + "/version");
-        if (response1 == null) return null;
-        JsonArray versions = response1.getAsJsonArray();
+        ModrinthVersionsInf versionsInf = getClient().create(ModrinthVersionsInf.class);
+        List<ModrinthVersion> versions = versionsInf.getVersions(slug).execute().body();
 
-        for (JsonElement element : versions) {
-            JsonObject modVersion = element.getAsJsonObject();
+        if (project == null || versions == null) {
+            return null;
+        }
 
-            for (JsonElement element1 : modVersion.getAsJsonArray("loaders")) {
-                if (Objects.equals(element1.getAsString(), "fabric")) {
-                    for (JsonElement element2 : modVersion.getAsJsonArray("game_versions")) {
-                        if (element2.getAsString().equals(gameVersion)) {
-                            JsonObject modFile = modVersion.getAsJsonArray("files").get(0).getAsJsonObject();
-
+        for (ModrinthVersion modVersion : versions) {
+            for (String loader : modVersion.getLoaders()) {
+                if (loader.equals("fabric")) {
+                    for (String modGameVersion : modVersion.getGameVersions()) {
+                        if (modGameVersion.equals(gameVersion)) {
+                            ModrinthVersion.ModrinthFile file = modVersion.getFiles().get(0);
                             return new ModData("modrinth",
-                                    project.get("title").getAsString(),
-                                    modVersion.get("id").getAsString(),
-                                    modFile.get("url").getAsString(),
-                                    modFile.get("filename").getAsString()
+                                    project.getTitle(),
+                                    modVersion.getId(),
+                                    project.getIconUrl(),
+                                    file.getUrl(),
+                                    file.getFilename()
                                     );
                         }
                     }
@@ -44,24 +143,23 @@ public class Modrinth {
         return null;
     }
 
-    public static ArrayList<ModResult> searchMods(String version, int offset, String query) throws IOException {
-        String url = MODRINTH_API + "/search/?facets=[[\"categories:fabric\"],[\"versions:" + version + "\"],[\"project_type:mod\"]]&offset=" + offset + "&query=" + query;
-        JsonElement response = HttpClient.get(url);
-        if (response == null) return null;
-        JsonArray mods = response.getAsJsonObject().getAsJsonArray("hits");
+    public static void addProjectsToRecycler(ModsFragment.ModAPIAdapter adapter, String version, int offset, String query) {
+        ModrinthSearchInf searchInf = getClient().create(ModrinthSearchInf.class);
+        Call<ModrinthSearchResult> call = searchInf.searchMods(50);
 
-        ArrayList<ModResult> modResults = new ArrayList<>();
-        for (JsonElement element : mods) {
-            JsonObject mod = element.getAsJsonObject();
+        call.enqueue(new Callback<ModrinthSearchResult>() {
+            @Override
+            public void onResponse(Call<ModrinthSearchResult> call, Response<ModrinthSearchResult> response) {
+                ModrinthSearchResult mods = response.body();
+                if (mods != null) {
+                    adapter.addMods(mods);
+                }
+            }
 
-            modResults.add(new ModResult(mod.get("title").getAsString(),
-                    mod.get("slug").getAsString(),
-                    mod.get("author").getAsString(),
-                    mod.get("description").getAsString(),
-                    mod.get("downloads").getAsInt(),
-                    mod.get("icon_url").getAsString()
-                    ));
-        }
-        return modResults;
+            @Override
+            public void onFailure(Call<ModrinthSearchResult> call, Throwable t) {
+                Log.d("MODRINTH", String.valueOf(t));
+            }
+        });
     }
 }

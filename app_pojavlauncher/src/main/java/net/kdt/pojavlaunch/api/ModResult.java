@@ -1,12 +1,20 @@
 package net.kdt.pojavlaunch.api;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ModResult {
 
+    @SerializedName("title")
     private final String title;
+    @SerializedName("slug")
     private final String slug;
+    @SerializedName("author")
     private final String author;
+    @SerializedName("description")
     private final String description;
+    @SerializedName("downloads")
     private final int downloads;
+    @SerializedName("icon_url")
     private final String iconUrl;
 
     public ModResult(String title, String slug, String author, String description, int downloads, String iconUrl) {

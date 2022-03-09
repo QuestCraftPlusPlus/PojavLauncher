@@ -88,6 +88,7 @@ public class ModManager {
                     mod.get("platform").getAsString(),
                     mod.get("name").getAsString(),
                     mod.get("id").getAsString(),
+                    "None",
                     mod.get("url").getAsString(),
                     mod.get("filename").getAsString()
             ));
