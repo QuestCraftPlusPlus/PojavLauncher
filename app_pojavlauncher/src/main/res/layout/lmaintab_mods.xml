@@ -5,13 +5,42 @@
         android:gravity="center"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="horizontal">
+        android:background="#44000000" android:orientation="horizontal">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/installedModsRecycler"
-            android:layout_width="311dp"
-            android:layout_height="match_parent"
-            tools:itemCount="12"
-            tools:listitem="@layout/installed_mod_recycler_view"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="450dp"
+            android:layout_height="match_parent">
+
+        <SearchView
+                android:layout_width="243dp"
+                android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/installedModsRecycler"
+                android:layout_width="335dp"
+                android:layout_height="match_parent"
+                tools:itemCount="12"
+                tools:listitem="@layout/installed_mod_recycler_view"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <SearchView
+                android:layout_width="243dp"
+                android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/apiModsRecycler"
+                android:layout_width="311dp"
+                android:layout_height="match_parent"
+                tools:itemCount="12"
+                tools:listitem="@layout/installed_mod_recycler_view"/>
+
+    </LinearLayout>
 
 </LinearLayout>

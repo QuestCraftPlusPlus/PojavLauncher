@@ -23,12 +23,18 @@ public class ModsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.lmaintab_mods, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.installedModsRecycler);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        ModAPIAdapter adapter = new ModAPIAdapter();
-        recyclerView.setAdapter(adapter);
-        Modrinth.addProjectsToRecycler(adapter, "1.18.1", 0, "");
+
+        ModAPIAdapter apiAdapter = new ModAPIAdapter();
+        RecyclerView apiModsRecycler = view.findViewById(R.id.apiModsRecycler);
+        apiModsRecycler.setHasFixedSize(true);
+        apiModsRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        apiModsRecycler.setAdapter(apiAdapter);
+
+        RecyclerView installedModsRecycler = view.findViewById(R.id.installedModsRecycler);
+        installedModsRecycler.setHasFixedSize(true);
+        installedModsRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        Modrinth.addProjectsToRecycler(apiAdapter, "1.18.1", 0, "");
         return view;
     }
 
