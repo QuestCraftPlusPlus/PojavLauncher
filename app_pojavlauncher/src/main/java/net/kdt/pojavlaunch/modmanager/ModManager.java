@@ -43,7 +43,7 @@ public class ModManager {
             writer.close();
         }
 
-
+        //Read mod compat json
         InputStream stream = assetManager.open("jsons/mod-compat.json");
         byte[] buffer = new byte[stream.available()];
         stream.read(buffer);
@@ -53,7 +53,9 @@ public class ModManager {
     }
 
     public static String getModCompat(String slug) {
-        return modCompats.get(slug).getAsString();
+        JsonElement compatLevel = modCompats.get(slug);
+        if (compatLevel != null) return compatLevel.getAsString();
+        return "Untested";
     }
 
     public static void addMod(String instanceName, String gameVersion, String slug) throws IOException {

@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.api.ModResult;
 import net.kdt.pojavlaunch.api.Modrinth;
+import net.kdt.pojavlaunch.modmanager.ModManager;
 
 import java.util.ArrayList;
 
@@ -43,6 +44,7 @@ public class ModsFragment extends Fragment {
         private final ImageView icon;
         private final TextView title;
         private final TextView description;
+        private final TextView compatLevel;
 
         public ModViewHolder(View itemView) {
             super(itemView);
@@ -50,6 +52,7 @@ public class ModsFragment extends Fragment {
             icon = itemView.findViewById(R.id.installedModIcon);
             title = itemView.findViewById(R.id.installedModTitle);
             description = itemView.findViewById(R.id.installedModDescription);
+            compatLevel = itemView.findViewById(R.id.compatLevel);
         }
 
         @Override
@@ -89,6 +92,7 @@ public class ModsFragment extends Fragment {
                 ModResult modResult = mods.get(position);
                 holder.title.setText(modResult.getTitle());
                 holder.description.setText(modResult.getDescription());
+                holder.compatLevel.setText(ModManager.getModCompat(modResult.getSlug()));
 
                 if (!modResult.getIconUrl().isEmpty()) {
                     Picasso.get().load(modResult.getIconUrl()).placeholder(R.drawable.ic_menu_no_news).into(holder.icon);

@@ -80,7 +80,6 @@ public class PojavApplication extends Application
 
 		try {
 			ModManager.init(getAssets());
-			Log.d("MODMANAGER", ModManager.getModCompat("lithium"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
