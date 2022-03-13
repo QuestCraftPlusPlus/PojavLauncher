@@ -1,5 +1,6 @@
 package net.kdt.pojavlaunch.modmanager;
 
+import android.content.res.AssetManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -16,8 +17,9 @@ public class ModManager {
 
     private static final String workDir = Tools.DIR_GAME_NEW + "/modmanager";
     private static final File mods = new File(workDir + "mods.json");
+    private static JsonObject modCompats = new JsonObject();
 
-    public static void init() throws IOException {
+    public static void init(AssetManager assetManager) throws IOException {
         File path = new File(workDir);
         if (!path.exists()) {
             path.mkdir();
@@ -40,6 +42,18 @@ public class ModManager {
             writer.write(String.valueOf(instances));
             writer.close();
         }
+
+
+        InputStream stream = assetManager.open("jsons/mod-compat.json");
+        byte[] buffer = new byte[stream.available()];
+        stream.read(buffer);
+
+        Gson gson = new Gson();
+        modCompats = gson.fromJson(new String(buffer), JsonObject.class);
+    }
+
+    public static String getModCompat(String slug) {
+        return modCompats.get(slug).getAsString();
     }
 
     public static void addMod(String instanceName, String gameVersion, String slug) throws IOException {
