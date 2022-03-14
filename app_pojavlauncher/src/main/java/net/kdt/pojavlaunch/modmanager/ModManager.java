@@ -1,20 +1,18 @@
 package net.kdt.pojavlaunch.modmanager;
 
 import android.content.res.AssetManager;
-import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.kdt.pojavlaunch.Tools;
-import net.kdt.pojavlaunch.api.ModData;
-import net.kdt.pojavlaunch.api.Modrinth;
+import net.kdt.pojavlaunch.modmanager.api.ModData;
+import net.kdt.pojavlaunch.modmanager.api.Modrinth;
 import net.kdt.pojavlaunch.fragments.ModsFragment;
 import net.kdt.pojavlaunch.utils.DownloadUtils;
 
 import java.io.*;
 import java.util.ArrayList;
 import net.kdt.pojavlaunch.modmanager.State.Instance;
-import net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles;
 
 public class ModManager {
 

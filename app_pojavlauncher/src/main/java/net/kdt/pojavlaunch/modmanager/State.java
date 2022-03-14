@@ -3,7 +3,7 @@ package net.kdt.pojavlaunch.modmanager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
-import net.kdt.pojavlaunch.api.ModData;
+import net.kdt.pojavlaunch.modmanager.api.ModData;
 
 import java.io.File;
 import java.io.FileOutputStream;

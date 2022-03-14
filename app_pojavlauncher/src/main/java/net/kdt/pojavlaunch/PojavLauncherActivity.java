@@ -197,9 +197,9 @@ public class PojavLauncherActivity extends BaseLauncherActivity
         }*/
 
         //mAvailableVersions;
-        ArrayAdapter<String> adapterVer = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
-        adapterVer.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        mVersionSelector.setAdapter(adapterVer);
+        //ArrayAdapter<String> adapterVer = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        //adapterVer.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        //mVersionSelector.setAdapter(adapterVer);
 
         statusIsLaunching(false);
 

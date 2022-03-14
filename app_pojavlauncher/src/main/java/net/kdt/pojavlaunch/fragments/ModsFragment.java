@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import net.kdt.pojavlaunch.R;
-import net.kdt.pojavlaunch.api.ModData;
-import net.kdt.pojavlaunch.api.ModResult;
-import net.kdt.pojavlaunch.api.Modrinth;
+import net.kdt.pojavlaunch.modmanager.api.ModData;
+import net.kdt.pojavlaunch.modmanager.api.ModResult;
+import net.kdt.pojavlaunch.modmanager.api.Modrinth;
 import net.kdt.pojavlaunch.modmanager.ModManager;
 
 import java.io.IOException;

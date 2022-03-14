@@ -1,4 +1,4 @@
-package net.kdt.pojavlaunch.api;
+package net.kdt.pojavlaunch.modmanager.api;
 
 import android.util.Log;
 import com.google.gson.annotations.SerializedName;
@@ -47,58 +47,26 @@ public class Modrinth {
 
     public static class ModrinthProject {
         @SerializedName("title")
-        private String title;
+        public String title;
         @SerializedName("icon_url")
-        private String iconUrl;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getIconUrl() {
-            return iconUrl;
-        }
+        public String iconUrl;
     }
 
     public static class ModrinthVersion {
         @SerializedName("id")
-        private String id;
+        public String id;
         @SerializedName("loaders")
-        private List<String> loaders;
+        public List<String> loaders;
         @SerializedName("game_versions")
-        private List<String> gameVersions;
+        public List<String> gameVersions;
         @SerializedName("files")
-        private List<ModrinthFile> files;
-
-        public String getId() {
-            return id;
-        }
-
-        public List<String> getLoaders() {
-            return loaders;
-        }
-
-        public List<String> getGameVersions() {
-            return gameVersions;
-        }
-
-        public List<ModrinthFile> getFiles() {
-            return files;
-        }
+        public List<ModrinthFile> files;
 
         public static class ModrinthFile {
             @SerializedName("url")
-            private String url;
+            public String url;
             @SerializedName("filename")
-            private String filename;
-
-            public String getUrl() {
-                return url;
-            }
-
-            public String getFilename() {
-                return filename;
-            }
+            public String filename;
         }
     }
 
@@ -123,17 +91,17 @@ public class Modrinth {
         }
 
         for (ModrinthVersion modVersion : versions) {
-            for (String loader : modVersion.getLoaders()) {
+            for (String loader : modVersion.loaders) {
                 if (loader.equals("fabric")) {
-                    for (String modGameVersion : modVersion.getGameVersions()) {
+                    for (String modGameVersion : modVersion.gameVersions) {
                         if (modGameVersion.equals(gameVersion)) {
-                            ModrinthVersion.ModrinthFile file = modVersion.getFiles().get(0);
+                            ModrinthVersion.ModrinthFile file = modVersion.files.get(0);
                             return new ModData("modrinth",
-                                    project.getTitle(),
-                                    project.getIconUrl(),
-                                    modVersion.getId(),
-                                    file.getUrl(),
-                                    file.getFilename()
+                                    project.title,
+                                    project.iconUrl,
+                                    modVersion.id,
+                                    file.url,
+                                    file.filename
                                     );
                         }
                     }

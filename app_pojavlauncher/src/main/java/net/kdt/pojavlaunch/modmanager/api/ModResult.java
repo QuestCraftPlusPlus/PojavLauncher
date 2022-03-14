@@ -1,4 +1,4 @@
-package net.kdt.pojavlaunch.api;
+package net.kdt.pojavlaunch.modmanager.api;
 
 import com.google.gson.annotations.SerializedName;
 
