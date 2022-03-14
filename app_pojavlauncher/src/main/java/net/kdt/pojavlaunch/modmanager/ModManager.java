@@ -1,9 +1,9 @@
 package net.kdt.pojavlaunch.modmanager;
 
-import android.content.res.AssetManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.kdt.pojavlaunch.PojavApplication;
 import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.modmanager.api.ModData;
 import net.kdt.pojavlaunch.modmanager.api.Modrinth;
@@ -21,7 +21,7 @@ public class ModManager {
     private static JsonObject modCompats = new JsonObject();
     private static final ArrayList<String> currentDownloadSlugs = new ArrayList<>();
 
-    public static void init(AssetManager assetManager) throws IOException {
+    public static void init() throws IOException {
         File path = new File(workDir);
         if (!path.exists()) {
             path.mkdir();
@@ -36,7 +36,7 @@ public class ModManager {
         //saveState();
 
         //Read mod compat json
-        InputStream stream = assetManager.open("jsons/mod-compat.json");
+        InputStream stream = PojavApplication.assetManager.open("jsons/mod-compat.json");
         byte[] buffer = new byte[stream.available()];
         stream.read(buffer);
 

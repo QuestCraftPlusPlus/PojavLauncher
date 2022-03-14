@@ -12,11 +12,15 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.kdt.pojavlaunch.modmanager.ModManager;
 import net.kdt.pojavlaunch.utils.*;
 
 public class PojavApplication extends Application {
 	public static String CRASH_REPORT_TAG = "PojavCrashReport";
+	public static AssetManager assetManager;
 	
 	@Override
 	public void onCreate() {
@@ -58,7 +62,8 @@ public class PojavApplication extends Application {
             Tools.DIR_ACCOUNT_NEW = Tools.DIR_DATA + "/accounts";
             // Tools.FILE_ACCOUNT_JSON = getFilesDir().getAbsolutePath() + "/account_profiles.json";
 
-			ModManager.init(getAssets());
+			assetManager = getAssets();
+			ModManager.init();
 
 			Tools.DEVICE_ARCHITECTURE = Architecture.getDeviceArchitecture();
 			//Force x86 lib directory for Asus x86 based zenfones

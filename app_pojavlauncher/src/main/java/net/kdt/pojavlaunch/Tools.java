@@ -350,6 +350,27 @@ public final class Tools {
         return argsFromJson;
     }
 
+    //Returns a list of minecraft versions that are compatible with quest craft
+    //Tag must be either "releases" or "snapshots"
+    public static ArrayList<String> getCompatibleVersions(String tag) {
+        ArrayList<String> versions = new ArrayList<>();
+        try {
+            InputStream stream = PojavApplication.assetManager.open("jsons/version-compat.json");
+            byte[] buffer = new byte[stream.available()];
+            stream.read(buffer);
+
+            Gson gson = new Gson();
+            JsonObject versionsJson = (JsonObject) gson.toJsonTree(new String(buffer));
+
+            for (JsonElement version : versionsJson.getAsJsonArray(tag)) {
+                versions.add(version.getAsString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return versions;
+    }
+
     public static String fromStringArray(String[] strArr) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < strArr.length; i++) {
