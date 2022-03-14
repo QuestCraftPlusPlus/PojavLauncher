@@ -1,7 +1,6 @@
 package net.kdt.pojavlaunch.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,7 @@ public class ModsFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.lmaintab_mods, container, false);
+        View view = inflater.inflate(R.layout.fragment_mods, container, false);
 
         InstalledModAdapter installedModAdapter = new InstalledModAdapter();
         RecyclerView installedModsRecycler = view.findViewById(R.id.installedModsRecycler);
@@ -108,7 +107,7 @@ public class ModsFragment extends Fragment {
 
         @Override
         public int getItemViewType(final int position) {
-            return R.layout.installed_mod_recycler_view;
+            return R.layout.item_installed_mod;
         }
 
         @NonNull
@@ -156,7 +155,7 @@ public class ModsFragment extends Fragment {
 
         @Override
         public int getItemViewType(final int position) {
-            return R.layout.installed_mod_recycler_view;
+            return R.layout.item_installed_mod;
         }
 
         @NonNull
