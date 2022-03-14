@@ -176,7 +176,7 @@ public class PojavLauncherActivity extends BaseLauncherActivity
         });
 
         // Setup the minecraft version list
-        List<String> versions = new ArrayList<>();
+        /*List<String> versions = new ArrayList<>();
         final File fVers = new File(Tools.DIR_HOME_VERSION);
 
         try {
@@ -194,10 +194,10 @@ public class PojavLauncherActivity extends BaseLauncherActivity
 
         } finally {
             mAvailableVersions = versions.toArray(new String[0]);
-        }
+        }*/
 
         //mAvailableVersions;
-        ArrayAdapter<String> adapterVer = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mAvailableVersions);
+        ArrayAdapter<String> adapterVer = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         adapterVer.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mVersionSelector.setAdapter(adapterVer);
 

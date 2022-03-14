@@ -39,12 +39,9 @@
         android:layout_height="40dp"
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
-
         android:src="@mipmap/ic_launcher"
-
         app:layout_constraintEnd_toEndOf="@id/launchermain_spinner_account"
         app:layout_constraintHorizontal_bias="0.00"
-
         app:layout_constraintStart_toStartOf="@id/launchermain_spinner_account"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +52,6 @@
         android:background="@android:color/transparent"
         android:spinnerMode="dropdown"
         android:paddingLeft="43dp"
-
         app:layout_constraintBottom_toBottomOf="@+id/launchermain_account_image"
         app:layout_constraintEnd_toStartOf="@+id/guidelineLeft"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,12 +74,10 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
-
         android:drawableStart="@drawable/ic_menu_news"
         android:focusable="true"
         android:gravity="center"
         android:onClick="onTabClicked"
-
         android:paddingStart="12dp"
         android:paddingTop="10dp"
         android:paddingEnd="0dp"
@@ -93,8 +87,6 @@
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-
-
         app:layout_constraintEnd_toStartOf="@+id/guidelineLeft"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/launchermain_text_accountstatus" />
@@ -104,15 +96,12 @@
         android:id="@+id/btnTab2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:drawableStart="@drawable/ic_menu_java"
         android:focusable="true"
-
         android:gravity="center"
         android:onClick="onTabClicked"
-
         android:paddingStart="12dp"
         android:paddingTop="10dp"
         android:paddingEnd="0dp"
@@ -122,8 +111,6 @@
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-
-
         app:layout_constraintEnd_toStartOf="@+id/guidelineLeft"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,15 +120,12 @@
         android:id="@+id/btnTab3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:drawableStart="@drawable/ic_menu_warning"
         android:focusable="true"
-
         android:gravity="center"
         android:onClick="onTabClicked"
-
         android:paddingStart="12dp"
         android:paddingTop="10dp"
         android:paddingEnd="0dp"
@@ -151,8 +135,6 @@
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-
-
         app:layout_constraintEnd_toStartOf="@+id/guidelineLeft"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -162,15 +144,12 @@
             android:id="@+id/btnTab4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:drawableStart="@drawable/ic_folder"
             android:focusable="true"
-
             android:gravity="center"
             android:onClick="onTabClicked"
-
             android:paddingStart="12dp"
             android:paddingTop="10dp"
             android:paddingEnd="0dp"
@@ -180,8 +159,6 @@
             android:textAllCaps="true"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
-
-
             app:layout_constraintEnd_toStartOf="@+id/guidelineLeft"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -191,14 +168,11 @@
         android:id="@+id/btnTab5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:drawableStart="@drawable/ic_menu_settings"
-
         android:focusable="true"
         android:gravity="center"
-
         android:onClick="onTabClicked"
         android:paddingStart="12dp"
         android:paddingTop="10dp"
@@ -252,28 +226,27 @@
 
 
     <Spinner
-        android:id="@+id/launchermain_spinner_version"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineBottom2"
-        app:layout_constraintEnd_toStartOf="@+id/launchermainPlayButton"
-        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toTopOf="@+id/guidelineBottom" />
+            android:id="@+id/launchermain_spinner_version"
+            android:layout_width="0dp"
+            android:layout_height="63dp"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineBottom2"
+            app:layout_constraintStart_toEndOf="@+id/add_instance_button"
+            app:layout_constraintEnd_toStartOf="@+id/launchermainPlayButton"
+            app:layout_constraintTop_toTopOf="@+id/guidelineBottom"
+            app:layout_constraintVertical_bias="0.0"/>
 
     <Button
-
-        style="?android:attr/buttonBarButtonStyle"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="?attr/selectableItemBackground"
-
-        android:onClick="resetOptionsTXT"
-        android:text="@string/mcl_option_customcontrol"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/launchermainPlayButton"
-        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toTopOf="@+id/guidelineBottom2" />
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="resetOptionsTXT"
+            android:text="@string/mcl_option_customcontrol"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineBottom2"
+            app:layout_constraintStart_toEndOf="@+id/launchermainPlayButton"
+            app:layout_constraintTop_toBottomOf="@+id/launchermainTabPager"
+            app:layout_constraintEnd_toEndOf="@+id/launchermainTabPager"
+            app:layout_constraintVertical_bias="0.0"/>
 
     <com.kdt.mcgui.MineButton
         android:id="@+id/launchermainPlayButton"
@@ -291,13 +264,10 @@
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.25" />
 
-
     <Button
         android:id="@+id/installJarButton"
-
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="0dp"
-
         android:layout_height="0dp"
         android:background="?attr/selectableItemBackground"
         android:onClick="installJarFile"
@@ -312,12 +282,24 @@
         android:id="@+id/viewTabSelected"
         android:layout_width="5dp"
         android:layout_height="30dp"
-
         android:background="@android:color/white"
-
         app:layout_constraintBottom_toBottomOf="@+id/btnTab1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/launchermain_text_accountstatus" />
 
+    <com.kdt.mcgui.MineButton
+            android:id="@+id/add_instance_button"
+            android:layout_width="58dp"
+            android:layout_height="63dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/mine_button_background"
+            android:text="+"
+            android:textColor="@android:color/white"
+            app:layout_constraintTop_toBottomOf="@+id/launchermainTabPager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.25"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintHorizontal_bias="0.0"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

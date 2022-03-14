@@ -14,6 +14,7 @@ import net.kdt.pojavlaunch.utils.DownloadUtils;
 import java.io.*;
 import java.util.ArrayList;
 import net.kdt.pojavlaunch.modmanager.State.Instance;
+import net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles;
 
 public class ModManager {
 
