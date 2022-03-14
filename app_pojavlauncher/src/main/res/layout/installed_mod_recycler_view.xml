@@ -32,8 +32,8 @@
 
     <TextView
             android:id="@+id/installedModDescription"
-            android:layout_width="285dp"
-            android:layout_height="20dp"
+            android:layout_width="358dp"
+            android:layout_height="21dp"
             tools:text="Coolest mod you've ever seen"
             app:layout_constraintBottom_toBottomOf="@+id/installedModIcon"
             app:layout_constraintStart_toEndOf="@+id/installedModIcon"

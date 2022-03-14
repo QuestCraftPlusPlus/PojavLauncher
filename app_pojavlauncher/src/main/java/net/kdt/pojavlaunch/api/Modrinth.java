@@ -130,8 +130,8 @@ public class Modrinth {
                             ModrinthVersion.ModrinthFile file = modVersion.getFiles().get(0);
                             return new ModData("modrinth",
                                     project.getTitle(),
-                                    modVersion.getId(),
                                     project.getIconUrl(),
+                                    modVersion.getId(),
                                     file.getUrl(),
                                     file.getFilename()
                                     );

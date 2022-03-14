@@ -61,6 +61,7 @@ public class PojavApplication extends Application
             Tools.DIR_ACCOUNT_NEW = Tools.DIR_DATA + "/accounts";
             // Tools.FILE_ACCOUNT_JSON = getFilesDir().getAbsolutePath() + "/account_profiles.json";
 
+			ModManager.init(getAssets());
 
 			Tools.DEVICE_ARCHITECTURE = Architecture.getDeviceArchitecture();
 			//Force x86 lib directory for Asus x86 based zenfones
@@ -70,18 +71,11 @@ public class PojavApplication extends Application
 												originalJNIDirectory.lastIndexOf("/"))
 												.concat("/x86");
 			}
-
-
 		} catch (Throwable th) {
+			th.printStackTrace();
 			Intent ferrorIntent = new Intent(this, FatalErrorActivity.class);
 			ferrorIntent.putExtra("throwable", th);
 			startActivity(ferrorIntent);
-		}
-
-		try {
-			ModManager.init(getAssets());
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
     

@@ -1,23 +1,26 @@
 package net.kdt.pojavlaunch.modmanager;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.api.ModData;
 import net.kdt.pojavlaunch.api.Modrinth;
+import net.kdt.pojavlaunch.fragments.ModsFragment;
 import net.kdt.pojavlaunch.utils.DownloadUtils;
 
 import java.io.*;
 import java.util.ArrayList;
+import net.kdt.pojavlaunch.modmanager.State.Instance;
 
 public class ModManager {
 
     private static final String workDir = Tools.DIR_GAME_NEW + "/modmanager";
-    private static final File mods = new File(workDir + "mods.json");
+    private static State state;
     private static JsonObject modCompats = new JsonObject();
+    private static final ArrayList<String> currentDownloadSlugs = new ArrayList<>();
 
     public static void init(AssetManager assetManager) throws IOException {
         File path = new File(workDir);
@@ -25,23 +28,13 @@ public class ModManager {
             path.mkdir();
         }
 
-        //Create mods.json if it doesn't exist
-        if (mods.createNewFile()) {
-            FileWriter writer = new FileWriter(mods);
-            JsonObject modsJson = new JsonObject();
-
-            //Temp test data
-            JsonObject instances = new JsonObject();
-            JsonObject instance = new JsonObject();
-            instance.addProperty("gameVersion", "1.18.1");
-            instance.addProperty("fabricLoaderVersion", "0.13.3");
-            instance.add("mods", new JsonArray());
-            instance.add("test", instance);
-            modsJson.add("instances", instances);
-
-            writer.write(String.valueOf(instances));
-            writer.close();
-        }
+        state = new State(workDir);
+        State.Instance instance = new State.Instance();
+        instance.setName("test");
+        instance.setGameVersion("1.18.1");
+        instance.setFabricLoaderVersion("0.13.3");
+        state.addInstance(instance);
+        //saveState();
 
         //Read mod compat json
         InputStream stream = assetManager.open("jsons/mod-compat.json");
@@ -58,57 +51,54 @@ public class ModManager {
         return "Untested";
     }
 
-    public static void addMod(String instanceName, String gameVersion, String slug) throws IOException {
-        File path = new File(workDir + "/" + instanceName);
-        if (!path.exists()) {
-            path.mkdir();
+    public static void saveState() {
+        try {
+            state.save();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        ModData modData = Modrinth.getModData(slug, gameVersion);
-        DownloadUtils.downloadFile(modData.getUrl(), new File(path.getPath() + "/" + modData.getFilename()));
-        Gson gson = new Gson();
-        FileReader reader = new FileReader(mods);
-        JsonObject modsJson = gson.fromJson(reader, JsonObject.class);
-        reader.close();
-
-        //parse data for mods.json - Probably a better way to do this with beans but ill do it later
-        JsonObject instances = modsJson.get("instances").getAsJsonObject();
-        JsonObject instance = instances.getAsJsonObject().get(instanceName).getAsJsonObject();
-        JsonArray instanceMods = instance.getAsJsonArray("mods");
-        JsonObject mod = new JsonObject();
-        mod.addProperty("platform", modData.getPlatform());
-        mod.addProperty("name", modData.getName());
-        mod.addProperty("id", modData.getId());
-        mod.addProperty("filename", modData.getFilename());
-        instanceMods.add(mod);
-        instance.add("mods", instanceMods);
-        instances.add(instanceName, instance);
-        modsJson.add("instances", instances);
-
-        FileWriter writer = new FileWriter(mods);
-        writer.write(String.valueOf(modsJson));
-        writer.close();
     }
 
-    //Convert to use beans later
-    public static ArrayList<ModData> listMods(String instanceName) throws FileNotFoundException {
-        Gson gson = new Gson();
-        FileReader reader = new FileReader(mods);
-        JsonObject modsJson = gson.fromJson(reader, JsonObject.class);
-        JsonObject instance = modsJson.get("instances").getAsJsonObject().getAsJsonObject().get(instanceName).getAsJsonObject();
+    public static boolean isDownloading(String slug) {
+        return currentDownloadSlugs.contains(slug);
+    }
 
-        ArrayList<ModData> instanceMods = new ArrayList<>();
-        for (JsonElement element : instance.getAsJsonArray("mods")) {
-            JsonObject mod = element.getAsJsonObject();
-            instanceMods.add(new ModData(
-                    mod.get("platform").getAsString(),
-                    mod.get("name").getAsString(),
-                    mod.get("id").getAsString(),
-                    "None",
-                    mod.get("url").getAsString(),
-                    mod.get("filename").getAsString()
-            ));
-        }
-        return instanceMods;
+    public static void addMod(ModsFragment.InstalledModAdapter adapter, String instanceName, String slug, String gameVersion) throws IOException {
+        Thread thread = new Thread() {
+            public void run() {
+                currentDownloadSlugs.add(slug);
+                File path = new File(workDir + "/" + instanceName);
+                if (!path.exists()) {
+                    path.mkdir();
+                }
+
+                try {
+                    ModData modData = Modrinth.getModData(slug, gameVersion);
+                    if (modData == null) {
+                        return;
+                    }
+
+                    //No duplicate mods allowed
+                    Instance instance = state.getInstance(instanceName);
+                    for (ModData mod : instance.getMods()) {
+                        if (mod.getName().equals(modData.getName())) {
+                            return;
+                        }
+                    }
+
+                    DownloadUtils.downloadFile(modData.getUrl(), new File(path.getPath() + "/" + modData.getFilename()));
+                    instance.addMod(modData);
+                    adapter.addMod(modData);
+                    currentDownloadSlugs.remove(slug);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+    }
+
+    public static ArrayList<ModData> listMods(String instanceName) {
+        return (ArrayList<ModData>) state.getInstance(instanceName).getMods();
     }
 }

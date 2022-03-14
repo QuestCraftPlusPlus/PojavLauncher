@@ -1,12 +1,20 @@
 package net.kdt.pojavlaunch.api;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ModData {
 
+    @SerializedName("platform")
     private final String platform;
+    @SerializedName("name")
     private final String name;
+    @SerializedName("id")
     private final String id;
+    @SerializedName("iconUrl")
     private final String iconUrl;
+    @SerializedName("url")
     private final String url;
+    @SerializedName("filename")
     private final String filename;
 
     public ModData(String platform, String name, String iconUrl, String id, String url, String filename) {
