@@ -56,15 +56,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/apiModsRecycler"
-            android:layout_width="830dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchView2"
-            tools:itemCount="12"
-            tools:listitem="@layout/item_api_mod" />
+                android:id="@+id/apiModsRecycler"
+                android:layout_width="830dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/searchView2"
+                tools:itemCount="12"
+                tools:listitem="@layout/item_api_mod" app:layout_constraintHorizontal_bias="0.007"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

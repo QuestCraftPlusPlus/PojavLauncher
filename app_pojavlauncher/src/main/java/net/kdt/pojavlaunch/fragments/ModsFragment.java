@@ -31,42 +31,28 @@ public class ModsFragment extends Fragment {
 
         InstalledModAdapter installedModAdapter = new InstalledModAdapter();
         RecyclerView installedModsRecycler = view.findViewById(R.id.installedModsRecycler);
-        installedModsRecycler.setHasFixedSize(true);
-        installedModsRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        installedModsRecycler.setLayoutManager(new LinearLayoutManager(installedModsRecycler.getContext()));
         installedModsRecycler.setAdapter(installedModAdapter);
 
-        ModAPIAdapter modAPIAdapter = new ModAPIAdapter(installedModAdapter);
+        APIModAdapter modAPIAdapter = new APIModAdapter(installedModAdapter);
         RecyclerView apiModsRecycler = view.findViewById(R.id.apiModsRecycler);
-        apiModsRecycler.setHasFixedSize(true);
-        apiModsRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        apiModsRecycler.setLayoutManager(new LinearLayoutManager(apiModsRecycler.getContext()));
         apiModsRecycler.setAdapter(modAPIAdapter);
 
         Modrinth.addProjectsToRecycler(modAPIAdapter, "1.18.1", 0, "sodium");
         return view;
     }
 
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    public static class ModViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class APIModViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView icon;
         private final TextView title;
         private final TextView description;
-        private TextView compatLevel;
-        private Switch activeSwitch;
+        private final TextView compatLevel;
         private String slug;
-        private InstalledModAdapter adapter;
+        private final InstalledModAdapter adapter;
 
-        public ModViewHolder(View itemView) {
-            super(itemView);
-            //TextView view = itemView.findViewById(R.id.installedModsRecycler);
-            icon = itemView.findViewById(R.id.installedModIcon);
-            title = itemView.findViewById(R.id.installedModTitle);
-            description = itemView.findViewById(R.id.installedModDescription);
-            activeSwitch = itemView.findViewById(R.id.active_switch);
-            activeSwitch.setChecked(true);
-        }
-
-        public ModViewHolder(View itemView, InstalledModAdapter adapter) {
+        public APIModViewHolder(View itemView, InstalledModAdapter adapter) {
             super(itemView);
             icon = itemView.findViewById(R.id.apiModIcon);
             icon.setOnClickListener(this);
@@ -88,19 +74,36 @@ public class ModsFragment extends Fragment {
             }
 
             try {
-                ModManager.addMod(adapter, "test", slug, "1.18.1");
+                //adapter.addMod(new ModData("modrinth", title, slug, ));
+                ModManager.addMod(adapter, "test", slug, "1.18.2");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public static class ModAPIAdapter extends RecyclerView.Adapter<ModViewHolder> {
+    public static class InstalledModViewHolder extends RecyclerView.ViewHolder {
+
+        private final ImageView icon;
+        private final TextView title;
+        private final TextView filename;
+        private final Switch activeSwitch;
+
+        public InstalledModViewHolder(@NonNull View itemView) {
+            super(itemView);
+            icon = itemView.findViewById(R.id.installedModIcon);
+            title = itemView.findViewById(R.id.installedModTitle);
+            filename = itemView.findViewById(R.id.installedModDescription);
+            activeSwitch = itemView.findViewById(R.id.active_switch);
+        }
+    }
+
+    public static class APIModAdapter extends RecyclerView.Adapter<APIModViewHolder> {
 
         private final ArrayList<ModResult> mods = new ArrayList<>();
         private final InstalledModAdapter adapter;
 
-        public ModAPIAdapter(InstalledModAdapter adapter) {
+        public APIModAdapter(InstalledModAdapter adapter) {
             this.adapter = adapter;
         }
 
@@ -117,13 +120,13 @@ public class ModsFragment extends Fragment {
 
         @NonNull
         @Override
-        public ModViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public APIModViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-            return new ModViewHolder(view, adapter);
+            return new APIModViewHolder(view, adapter);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ModViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull APIModViewHolder holder, int position) {
             if (mods.size() > position) {
                 ModResult modResult = mods.get(position);
                 holder.title.setText(modResult.getTitle());
@@ -139,43 +142,44 @@ public class ModsFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 50;
+            return mods.size();
         }
     }
 
-    public static class InstalledModAdapter extends RecyclerView.Adapter<ModViewHolder> {
+    public static class InstalledModAdapter extends RecyclerView.Adapter<InstalledModViewHolder> {
 
-        private ArrayList<ModData> mods = new ArrayList<>();
+        private final ArrayList<ModData> mods = new ArrayList<>();
+
+        /*public InstalledModAdapter() {
+            mods = ModManager.listInstalledMods("test");
+            this.notifyDataSetChanged();
+        }*/
 
         public void addMod(ModData modData) {
             int posStart = mods.size();
             mods.add(modData);
-            this.notifyItemRangeChanged(posStart, posStart + 1);
-        }
-
-        public void refreshList() {
-            mods = ModManager.listInstalledMods("test");
-            this.notifyDataSetChanged();
+            this.notifyItemRangeChanged(posStart, mods.size());
         }
 
         @Override
         public int getItemViewType(final int position) {
-            return R.layout.item_api_mod;
+            return R.layout.item_installed_mod;
         }
 
         @NonNull
         @Override
-        public ModViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public InstalledModViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-            return new ModViewHolder(view);
+            return new InstalledModViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ModViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull InstalledModViewHolder holder, int position) {
             if (mods.size() > position) {
                 ModData modData = mods.get(position);
                 holder.title.setText(modData.getName());
-                holder.description.setText(modData.getFilename());
+                holder.filename.setText(modData.getFilename());
+                //holder.activeSwitch.setChecked(modData.isActive());
 
                 if (!modData.getIconUrl().isEmpty()) {
                     Picasso.get().load(modData.getIconUrl()).placeholder(R.drawable.ic_menu_no_news).into(holder.icon);
@@ -185,7 +189,7 @@ public class ModsFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 50;
+            return mods.size();
         }
     }
 }

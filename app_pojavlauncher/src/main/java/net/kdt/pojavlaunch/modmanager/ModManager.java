@@ -4,15 +4,16 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.kdt.pojavlaunch.PojavApplication;
 import net.kdt.pojavlaunch.Tools;
+import net.kdt.pojavlaunch.fragments.ModsFragment;
 import net.kdt.pojavlaunch.modmanager.api.ModData;
 import net.kdt.pojavlaunch.modmanager.api.Modrinth;
-import net.kdt.pojavlaunch.fragments.ModsFragment;
 import net.kdt.pojavlaunch.utils.DownloadUtils;
 
 import java.io.*;
 import java.util.ArrayList;
 
 import net.kdt.pojavlaunch.modmanager.State.Instance;
+import net.kdt.pojavlaunch.utils.UiUitls;
 
 public class ModManager {
 
@@ -64,7 +65,7 @@ public class ModManager {
         Thread thread = new Thread() {
             public void run() {
                 currentDownloadSlugs.add(slug);
-                File path = new File(workDir + "/" + instanceName);
+                File path = new File(workDir + "/instances/" + instanceName);
                 if (!path.exists()) {
                     path.mkdir();
                 }
@@ -83,9 +84,9 @@ public class ModManager {
                         }
                     }
 
+                    UiUitls.runOnUI(() -> adapter.addMod(modData));
                     DownloadUtils.downloadFile(modData.getUrl(), new File(path.getPath() + "/" + modData.getFilename()));
                     instance.addMod(modData);
-                    adapter.addMod(modData);
                     currentDownloadSlugs.remove(slug);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -106,7 +107,7 @@ public class ModManager {
                         String suffix = "";
                         if (!active) suffix = ".disabled";
 
-                        File path = new File(workDir + "/" + instanceName);
+                        File path = new File(workDir + "/instances/" + instanceName);
                         for (File modJar : path.listFiles()) {
                             if (modJar.getName().replace(".disabled", "").equals(modData.getFilename())) {
                                 modJar.renameTo(new File(modData.getFilename() + suffix));

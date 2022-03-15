@@ -114,7 +114,7 @@ public class Modrinth {
         return null;
     }
 
-    public static void addProjectsToRecycler(ModsFragment.ModAPIAdapter adapter, String version, int offset, String query) {
+    public static void addProjectsToRecycler(ModsFragment.APIModAdapter adapter, String version, int offset, String query) {
         ModrinthSearchInf searchInf = getClient().create(ModrinthSearchInf.class);
         Call<ModrinthSearchResult> call = searchInf.searchMods(50);
 
