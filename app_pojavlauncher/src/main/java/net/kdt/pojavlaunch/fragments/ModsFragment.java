@@ -1,10 +1,12 @@
 package net.kdt.pojavlaunch.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,12 +45,14 @@ public class ModsFragment extends Fragment {
         return view;
     }
 
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     public static class ModViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView icon;
         private final TextView title;
         private final TextView description;
-        private final TextView compatLevel;
+        private TextView compatLevel;
+        private Switch activeSwitch;
         private String slug;
         private InstalledModAdapter adapter;
 
@@ -58,15 +62,16 @@ public class ModsFragment extends Fragment {
             icon = itemView.findViewById(R.id.installedModIcon);
             title = itemView.findViewById(R.id.installedModTitle);
             description = itemView.findViewById(R.id.installedModDescription);
-            compatLevel = itemView.findViewById(R.id.compatLevel);
+            activeSwitch = itemView.findViewById(R.id.active_switch);
+            activeSwitch.setChecked(true);
         }
 
         public ModViewHolder(View itemView, InstalledModAdapter adapter) {
             super(itemView);
-            icon = itemView.findViewById(R.id.installedModIcon);
+            icon = itemView.findViewById(R.id.apiModIcon);
             icon.setOnClickListener(this);
-            title = itemView.findViewById(R.id.installedModTitle);
-            description = itemView.findViewById(R.id.installedModDescription);
+            title = itemView.findViewById(R.id.apiModTitle);
+            description = itemView.findViewById(R.id.apiModDescription);
             compatLevel = itemView.findViewById(R.id.compatLevel);
             this.adapter = adapter;
         }
@@ -107,7 +112,7 @@ public class ModsFragment extends Fragment {
 
         @Override
         public int getItemViewType(final int position) {
-            return R.layout.item_installed_mod;
+            return R.layout.item_api_mod;
         }
 
         @NonNull
@@ -149,13 +154,13 @@ public class ModsFragment extends Fragment {
         }
 
         public void refreshList() {
-            mods = ModManager.listMods("test");
+            mods = ModManager.listInstalledMods("test");
             this.notifyDataSetChanged();
         }
 
         @Override
         public int getItemViewType(final int position) {
-            return R.layout.item_installed_mod;
+            return R.layout.item_api_mod;
         }
 
         @NonNull

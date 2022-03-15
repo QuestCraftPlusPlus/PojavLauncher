@@ -3,6 +3,7 @@ package net.kdt.pojavlaunch.modmanager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
+import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.modmanager.api.ModData;
 
 import java.io.File;
@@ -36,11 +37,10 @@ public class State {
     }
 
     public void save() throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         File file = new File(workDir + "/mods.json");
         file.createNewFile();
         FileOutputStream out = new FileOutputStream(file);
-        byte[] buf = gson.toJson(this).getBytes();
+        byte[] buf = Tools.GLOBAL_GSON.toJson(this).getBytes();
         out.write(buf, 0, buf.length);
         out.close();
     }

@@ -20,7 +20,7 @@
                 android:layout_width="429dp"
                 android:layout_height="match_parent"
                 tools:itemCount="12"
-                tools:listitem="@layout/item_installed_mod"/>
+                tools:listitem="@layout/item_api_mod"/>
 
     </LinearLayout>
 
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:itemCount="12"
-                tools:listitem="@layout/item_installed_mod"/>
+                tools:listitem="@layout/item_api_mod"/>
 
     </LinearLayout>
 

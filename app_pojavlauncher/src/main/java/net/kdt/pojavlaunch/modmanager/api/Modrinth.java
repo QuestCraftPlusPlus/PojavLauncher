@@ -48,6 +48,8 @@ public class Modrinth {
     public static class ModrinthProject {
         @SerializedName("title")
         public String title;
+        @SerializedName("slug")
+        public String slug;
         @SerializedName("icon_url")
         public String iconUrl;
     }
@@ -98,6 +100,7 @@ public class Modrinth {
                             ModrinthVersion.ModrinthFile file = modVersion.files.get(0);
                             return new ModData("modrinth",
                                     project.title,
+                                    project.slug,
                                     project.iconUrl,
                                     modVersion.id,
                                     file.url,

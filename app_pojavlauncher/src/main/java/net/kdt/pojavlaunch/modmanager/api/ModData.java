@@ -8,6 +8,8 @@ public class ModData {
     private final String platform;
     @SerializedName("name")
     private final String name;
+    @SerializedName("slug")
+    private final String slug;
     @SerializedName("id")
     private final String id;
     @SerializedName("iconUrl")
@@ -16,14 +18,21 @@ public class ModData {
     private final String url;
     @SerializedName("filename")
     private final String filename;
+    @SerializedName("isActive")
+    private boolean isActive = true;
 
-    public ModData(String platform, String name, String iconUrl, String id, String url, String filename) {
+    public ModData(String platform, String name, String slug, String iconUrl, String id, String url, String filename) {
         this.platform = platform;
         this.name = name;
+        this.slug = slug;
         this.id = id;
         this.iconUrl = iconUrl;
         this.url = url;
         this.filename = filename;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public String getPlatform() {
@@ -32,6 +41,10 @@ public class ModData {
 
     public String getName() {
         return name;
+    }
+
+    public String getSlug() {
+        return slug;
     }
 
     public String getId() {
@@ -48,5 +61,9 @@ public class ModData {
 
     public String getFilename() {
         return filename;
+    }
+
+    public boolean isActive() {
+        return isActive;
     }
 }

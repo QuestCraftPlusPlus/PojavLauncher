@@ -1,6 +1,5 @@
 package net.kdt.pojavlaunch.modmanager;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.kdt.pojavlaunch.PojavApplication;
@@ -12,6 +11,7 @@ import net.kdt.pojavlaunch.utils.DownloadUtils;
 
 import java.io.*;
 import java.util.ArrayList;
+
 import net.kdt.pojavlaunch.modmanager.State.Instance;
 
 public class ModManager {
@@ -39,9 +39,7 @@ public class ModManager {
         InputStream stream = PojavApplication.assetManager.open("jsons/mod-compat.json");
         byte[] buffer = new byte[stream.available()];
         stream.read(buffer);
-
-        Gson gson = new Gson();
-        modCompats = gson.fromJson(new String(buffer), JsonObject.class);
+        modCompats = Tools.GLOBAL_GSON.fromJson(new String(buffer), JsonObject.class);
     }
 
     public static String getModCompat(String slug) {
@@ -97,7 +95,32 @@ public class ModManager {
         thread.start();
     }
 
-    public static ArrayList<ModData> listMods(String instanceName) {
+    public static void setModActive(String instanceName, String slug, boolean active) {
+        Thread thread = new Thread() {
+            public void run() {
+                Instance instance = state.getInstance(instanceName);
+                for (ModData modData : instance.getMods()) {
+                    if (modData.getSlug().equals(slug)) {
+                        modData.setActive(active);
+
+                        String suffix = "";
+                        if (!active) suffix = ".disabled";
+
+                        File path = new File(workDir + "/" + instanceName);
+                        for (File modJar : path.listFiles()) {
+                            if (modJar.getName().replace(".disabled", "").equals(modData.getFilename())) {
+                                modJar.renameTo(new File(modData.getFilename() + suffix));
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        };
+        thread.start();
+    }
+
+    public static ArrayList<ModData> listInstalledMods(String instanceName) {
         return (ArrayList<ModData>) state.getInstance(instanceName).getMods();
     }
 }
