@@ -1,25 +1,14 @@
 package net.kdt.pojavlaunch.modmanager;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
-import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.modmanager.api.ModData;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class State {
-    private final String workDir;
     @SerializedName("instances")
     private final List<Instance> instances = new ArrayList<>();
-
-    public State(String workDir) {
-        this.workDir = workDir;
-    }
 
     public List<Instance> getInstances() {
         return instances;
@@ -34,15 +23,6 @@ public class State {
 
     public void addInstance(Instance instance) {
         instances.add(instance);
-    }
-
-    public void save() throws IOException {
-        File file = new File(workDir + "/mods.json");
-        file.createNewFile();
-        FileOutputStream out = new FileOutputStream(file);
-        byte[] buf = Tools.GLOBAL_GSON.toJson(this).getBytes();
-        out.write(buf, 0, buf.length);
-        out.close();
     }
 
     public static class Instance {

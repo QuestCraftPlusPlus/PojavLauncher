@@ -18,9 +18,10 @@ import net.kdt.pojavlaunch.utils.UiUitls;
 public class ModManager {
 
     private static final String workDir = Tools.DIR_GAME_NEW + "/modmanager";
-    private static State state;
+    private static State state = new State();
     private static JsonObject modCompats = new JsonObject();
     private static final ArrayList<String> currentDownloadSlugs = new ArrayList<>();
+    private static boolean saveStateCalled = false;
 
     public static void init() throws IOException {
         File path = new File(workDir);
@@ -28,19 +29,21 @@ public class ModManager {
             path.mkdir();
         }
 
-        state = new State(workDir);
-        State.Instance instance = new State.Instance();
-        instance.setName("test");
-        instance.setGameVersion("1.18.1");
-        instance.setFabricLoaderVersion("0.13.3");
-        state.addInstance(instance);
-        //saveState();
+        File modsJson = new File(workDir + "/mods.json");
+        if (!modsJson.exists()) {
+            State.Instance instance = new State.Instance();
+            instance.setName("test");
+            instance.setGameVersion("1.18.1");
+            instance.setFabricLoaderVersion("0.13.3");
+            state.addInstance(instance);
+            saveState();
+        } else {
+            state = Tools.GLOBAL_GSON.fromJson(Tools.read(modsJson.getPath()), State.class);
+        }
 
         //Read mod compat json
         InputStream stream = PojavApplication.assetManager.open("jsons/mod-compat.json");
-        byte[] buffer = new byte[stream.available()];
-        stream.read(buffer);
-        modCompats = Tools.GLOBAL_GSON.fromJson(new String(buffer), JsonObject.class);
+        modCompats = Tools.GLOBAL_GSON.fromJson(Tools.read(stream), JsonObject.class);
     }
 
     public static String getModCompat(String slug) {
@@ -49,11 +52,32 @@ public class ModManager {
         return "Untested";
     }
 
+    //Only save the state if there is nothing currently happening
     public static void saveState() {
-        try {
-            state.save();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Thread thread = new Thread() {
+            public void run() {
+                while (currentDownloadSlugs.size() > 0) {
+                    synchronized (state) {
+                        try {
+                            state.wait();
+                            state.notify();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                try {
+                    Tools.write(workDir + "/mods.json", Tools.GLOBAL_GSON.toJson(state));
+                    saveStateCalled = false;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        if (!saveStateCalled) {
+            saveStateCalled = true;
+            thread.start();
         }
     }
 
@@ -84,10 +108,17 @@ public class ModManager {
                         }
                     }
 
+                    //Must run on ui thread or it crashes. Idk why it works without this over in Modrinth.java
                     UiUitls.runOnUI(() -> adapter.addMod(modData));
+
                     DownloadUtils.downloadFile(modData.getUrl(), new File(path.getPath() + "/" + modData.getFilename()));
                     instance.addMod(modData);
                     currentDownloadSlugs.remove(slug);
+
+                    saveState();
+                    synchronized (state) {
+                        state.notifyAll();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

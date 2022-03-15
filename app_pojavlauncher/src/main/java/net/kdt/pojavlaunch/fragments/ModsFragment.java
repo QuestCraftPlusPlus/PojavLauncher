@@ -74,7 +74,6 @@ public class ModsFragment extends Fragment {
             }
 
             try {
-                //adapter.addMod(new ModData("modrinth", title, slug, ));
                 ModManager.addMod(adapter, "test", slug, "1.18.2");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -150,10 +149,11 @@ public class ModsFragment extends Fragment {
 
         private final ArrayList<ModData> mods = new ArrayList<>();
 
-        /*public InstalledModAdapter() {
-            mods = ModManager.listInstalledMods("test");
-            this.notifyDataSetChanged();
-        }*/
+        public InstalledModAdapter() {
+            int posStart = mods.size();
+            mods.addAll(ModManager.listInstalledMods("test"));
+            this.notifyItemRangeChanged(posStart, mods.size());
+        }
 
         public void addMod(ModData modData) {
             int posStart = mods.size();
@@ -179,7 +179,7 @@ public class ModsFragment extends Fragment {
                 ModData modData = mods.get(position);
                 holder.title.setText(modData.getName());
                 holder.filename.setText(modData.getFilename());
-                //holder.activeSwitch.setChecked(modData.isActive());
+                holder.activeSwitch.setChecked(modData.isActive());
 
                 if (!modData.getIconUrl().isEmpty()) {
                     Picasso.get().load(modData.getIconUrl()).placeholder(R.drawable.ic_menu_no_news).into(holder.icon);
