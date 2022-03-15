@@ -87,6 +87,7 @@ public class ModsFragment extends Fragment {
         private final TextView title;
         private final TextView filename;
         private final Switch activeSwitch;
+        private String slug;
 
         public InstalledModViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -94,6 +95,11 @@ public class ModsFragment extends Fragment {
             title = itemView.findViewById(R.id.installedModTitle);
             filename = itemView.findViewById(R.id.installedModDescription);
             activeSwitch = itemView.findViewById(R.id.active_switch);
+            activeSwitch.setOnCheckedChangeListener((button, value) -> ModManager.setModActive("test", slug, value));
+        }
+
+        public void setSlug(String slug) {
+            this.slug = slug;
         }
     }
 
@@ -180,6 +186,7 @@ public class ModsFragment extends Fragment {
                 holder.title.setText(modData.getName());
                 holder.filename.setText(modData.getFilename());
                 holder.activeSwitch.setChecked(modData.isActive());
+                holder.setSlug(modData.getSlug());
 
                 if (!modData.getIconUrl().isEmpty()) {
                     Picasso.get().load(modData.getIconUrl()).placeholder(R.drawable.ic_menu_no_news).into(holder.icon);

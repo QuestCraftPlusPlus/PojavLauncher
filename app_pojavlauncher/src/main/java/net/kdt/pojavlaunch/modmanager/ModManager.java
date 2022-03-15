@@ -1,5 +1,6 @@
 package net.kdt.pojavlaunch.modmanager;
 
+import android.util.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.kdt.pojavlaunch.PojavApplication;
@@ -10,6 +11,9 @@ import net.kdt.pojavlaunch.modmanager.api.Modrinth;
 import net.kdt.pojavlaunch.utils.DownloadUtils;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import net.kdt.pojavlaunch.modmanager.State.Instance;
@@ -60,7 +64,6 @@ public class ModManager {
                     synchronized (state) {
                         try {
                             state.wait();
-                            state.notify();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -141,9 +144,18 @@ public class ModManager {
                         File path = new File(workDir + "/instances/" + instanceName);
                         for (File modJar : path.listFiles()) {
                             if (modJar.getName().replace(".disabled", "").equals(modData.getFilename())) {
-                                modJar.renameTo(new File(modData.getFilename() + suffix));
+                                try {
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                        Path source = Paths.get(modJar.getPath());
+                                        Files.move(source, source.resolveSibling(modData.getFilename() + suffix));
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
+
+                        saveState();
                         break;
                     }
                 }
