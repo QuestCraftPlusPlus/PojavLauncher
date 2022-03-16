@@ -54,6 +54,7 @@ import net.kdt.pojavlaunch.utils.LocaleUtils;
 import net.kdt.pojavlaunch.value.MinecraftAccount;
 
 import org.apache.commons.io.FileUtils;
+import top.defaults.checkerboarddrawable.BuildConfig;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -312,6 +313,20 @@ public class PojavLoginActivity extends BaseActivity {
             mkdirs(Tools.DIR_GAME_NEW);
             mkdirs(Tools.DIR_GAME_NEW + "/mods");
             mkdirs(DIR_GAME_NEW + "/resourcepacks");
+
+            // Add TitleWorlds Folders
+            mkdirs(DIR_GAME_NEW + "/titleworlds/TitleWorlds");
+            mkdirs(DIR_GAME_NEW + "/titleworlds/TitleWorlds/DIM1/data");
+            mkdirs(DIR_GAME_NEW + "/titleworlds/TitleWorlds/DIM-1/data");
+            mkdirs(DIR_GAME_NEW + "/titleworlds/TitleWorlds/advancements");
+            mkdirs(DIR_GAME_NEW + "/titleworlds/TitleWorlds/data");
+            mkdirs(DIR_GAME_NEW + "/titleworlds/TitleWorlds/datapacks");
+            mkdirs(DIR_GAME_NEW + "/titleworlds/TitleWorlds/entities");
+            mkdirs(DIR_GAME_NEW + "/titleworlds/TitleWorlds/poi");
+            mkdirs(DIR_GAME_NEW + "/titleworlds/TitleWorlds/region");
+            mkdirs(DIR_GAME_NEW + "/titleworlds/TitleWorlds/stats");
+            mkdirs(DIR_GAME_NEW + "/titleworlds/TitleWorlds/playerdata");
+
             mkdirs(Tools.DIR_HOME_VERSION);
             mkdirs(Tools.DIR_HOME_LIBRARY);
         }
@@ -341,6 +356,35 @@ public class PojavLoginActivity extends BaseActivity {
             // Install Resource Pack
             Tools.copyAssetFile(this, "assets-v0.zip", DIR_GAME_NEW + "/resourcepacks", false);
 
+            // Install TitleWorlds
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/advancements/00000000-0000-0000-0000-000000000000.json", DIR_GAME_NEW + "/titleworlds/TitleWorlds/advancements", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/advancements/6b404275-563a-4c56-8f46-c1c0c23df5c8.json", DIR_GAME_NEW + "/titleworlds/TitleWorlds/advancements", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/data/raids.dat", DIR_GAME_NEW + "/titleworlds/TitleWorlds/data", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/DIM1/data/raids_end.dat", DIR_GAME_NEW + "/titleworlds/TitleWorlds/DIM1/data", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/DIM-1/data/raids.dat", DIR_GAME_NEW + "/titleworlds/TitleWorlds/DIM-1/data", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/entities/r.0.0.mca", DIR_GAME_NEW + "/titleworlds/TitleWorlds/entities", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/entities/r.0.-1.mca", DIR_GAME_NEW + "/titleworlds/TitleWorlds/entities", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/entities/r.-1.-1.mca", DIR_GAME_NEW + "/titleworlds/TitleWorlds/entities", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/playerdata/00000000-0000-0000-0000-000000000000.dat", DIR_GAME_NEW + "/titleworlds/TitleWorlds/playerdata", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/playerdata/00000000-0000-0000-0000-000000000000.dat_old", DIR_GAME_NEW + "/titleworlds/TitleWorlds/playerdata", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/playerdata/6b404275-563a-4c56-8f46-c1c0c23df5c8.dat", DIR_GAME_NEW + "/titleworlds/TitleWorlds/playerdata", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/playerdata/6b404275-563a-4c56-8f46-c1c0c23df5c8.dat_old", DIR_GAME_NEW + "/titleworlds/TitleWorlds/playerdata", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/poi/r.0.0.mca", DIR_GAME_NEW + "/titleworlds/TitleWorlds/poi", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/poi/r.0.-1.mca", DIR_GAME_NEW + "/titleworlds/TitleWorlds/poi", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/poi/r.-1.0.mca", DIR_GAME_NEW + "/titleworlds/TitleWorlds/poi", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/poi/r.-1.-1.mca", DIR_GAME_NEW + "/titleworlds/TitleWorlds/poi", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/region/r.0.0.mca", DIR_GAME_NEW + "/titleworlds/TitleWorlds/region", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/region/r.0.-1.mca", DIR_GAME_NEW + "/titleworlds/TitleWorlds/region", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/region/r.-1.0.mca", DIR_GAME_NEW + "/titleworlds/TitleWorlds/region", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/region/r.-1.-1.mca", DIR_GAME_NEW + "/titleworlds/TitleWorlds/region", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/stats/00000000-0000-0000-0000-000000000000.json", DIR_GAME_NEW + "/titleworlds/TitleWorlds/stats", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/stats/6b404275-563a-4c56-8f46-c1c0c23df5c8.json", DIR_GAME_NEW + "/titleworlds/TitleWorlds/stats", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/icon.png", DIR_GAME_NEW + "/titleworlds/TitleWorlds", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/level.dat", DIR_GAME_NEW + "/titleworlds/TitleWorlds", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/level.dat_old", DIR_GAME_NEW + "/titleworlds/TitleWorlds", false);
+            Tools.copyAssetFile(this, "titleworlds/TitleWorlds/session.lock", DIR_GAME_NEW + "/titleworlds/TitleWorlds", false);
+
+
             AssetManager am = this.getAssets();
 
             unpackComponent(am, "caciocavallo");
@@ -362,7 +406,7 @@ public class PojavLoginActivity extends BaseActivity {
         if(!firstLaunchPrefs.getBoolean("storageDialogShown",false)) {
             AlertDialog.Builder bldr = new AlertDialog.Builder(this);
             bldr.setTitle(R.string.storage_warning_title);
-            Spanned sp = Html.fromHtml(getString(R.string.storage_warning_text,BuildConfig.APPLICATION_ID));
+            Spanned sp = Html.fromHtml(getString(R.string.storage_warning_text, BuildConfig.APPLICATION_ID));
             bldr.setMessage(sp);
             bldr.setCancelable(false);
             bldr.setPositiveButton(android.R.string.ok, (dialog, which)->{
