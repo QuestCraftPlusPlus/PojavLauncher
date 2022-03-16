@@ -58,7 +58,7 @@ public class ModManager {
                     //Load instance versions
                     for (Instance instance : state.getInstances()) {
                         JMinecraftVersionList.Version version = Tools.GLOBAL_GSON.fromJson(Tools.read(Tools.DIR_HOME_VERSION + "/" + instance.getFabricLoaderVersion() + "/" + instance.getFabricLoaderVersion() + ".json"), JMinecraftVersionList.Version.class);
-                        version.id = instance.getName();
+                        version.name = instance.getName();
                         version.arguments.jvm.add("-Dfabric.addMods=" + workDir + "/" + instance.getName());
                         activity.mVersionList.versions.add(version);
                     }
@@ -131,7 +131,7 @@ public class ModManager {
                     saveState();
 
                     JMinecraftVersionList.Version version = Tools.GLOBAL_GSON.fromJson(Tools.read(Tools.DIR_HOME_VERSION + "/" + profileName + "/" + profileName + ".json"), JMinecraftVersionList.Version.class);
-                    version.id = name;
+                    version.name = name;
                     version.arguments.jvm.add("-Dfabric.addMods=" + workDir + "/" + name);
                     activity.mVersionList.versions.add(version);
                     new RefreshVersionListTask(activity).execute();

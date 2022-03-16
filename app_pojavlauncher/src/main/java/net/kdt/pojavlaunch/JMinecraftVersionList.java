@@ -25,6 +25,7 @@ public class JMinecraftVersionList {
         public Arguments arguments;
         public AssetIndex assetIndex;
 
+        public String name;
         public String assets;
         public Map<String, MinecraftClientInfo> downloads;
         public String inheritsFrom;

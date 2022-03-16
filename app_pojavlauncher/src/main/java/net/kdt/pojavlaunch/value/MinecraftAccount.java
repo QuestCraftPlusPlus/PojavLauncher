@@ -17,7 +17,7 @@ public class MinecraftAccount
     public String clientToken = "0"; // clientID: refresh and invalidate
     public String profileId = "00000000-0000-0000-0000-000000000000"; // profile UUID, for obtaining skin
     public String username = "Steve";
-    public String selectedVersion = "1.7.10";
+    public String selectedVersion = "";
     public boolean isMicrosoft = false;
     public String msaRefreshToken = "0";
     public String skinFaceBase64;
