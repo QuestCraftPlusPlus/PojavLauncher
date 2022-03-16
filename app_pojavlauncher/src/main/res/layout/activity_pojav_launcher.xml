@@ -146,7 +146,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:drawableStart="@drawable/ic_folder"
+            android:drawableStart="@drawable/fabric_logo"
             android:focusable="true"
             android:gravity="center"
             android:onClick="onTabClicked"
