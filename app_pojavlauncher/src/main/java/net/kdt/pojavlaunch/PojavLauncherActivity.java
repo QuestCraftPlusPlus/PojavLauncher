@@ -48,8 +48,12 @@ public class PojavLauncherActivity extends BaseLauncherActivity
 
     // An equivalent ViewPager2 adapter class
     private static class ScreenSlidePagerAdapter extends FragmentStateAdapter {
-        public ScreenSlidePagerAdapter(FragmentActivity fa) {
+
+        private final PojavLauncherActivity fa;
+
+        public ScreenSlidePagerAdapter(PojavLauncherActivity fa) {
             super(fa);
+            this.fa = fa;
         }
 
         @Override
@@ -57,7 +61,7 @@ public class PojavLauncherActivity extends BaseLauncherActivity
             if (position == 0) return new LauncherFragment();
             if (position == 1) return new ConsoleFragment();
             if (position == 2) return new CrashFragment();
-            if (position == 3) return new ModsFragment();
+            if (position == 3) return new ModsFragment(fa);
             if (position == 4) return new LauncherPreferenceFragment();
             return null;
         }

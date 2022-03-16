@@ -13,8 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
+import net.kdt.pojavlaunch.PojavLauncherActivity;
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.modmanager.ModManager;
+import net.kdt.pojavlaunch.modmanager.State;
 import net.kdt.pojavlaunch.modmanager.api.ModData;
 import net.kdt.pojavlaunch.modmanager.api.ModResult;
 import net.kdt.pojavlaunch.modmanager.api.Modrinth;
@@ -24,21 +26,28 @@ import java.util.ArrayList;
 
 public class ModsFragment extends Fragment {
 
+    private final PojavLauncherActivity activity;
+
+    public ModsFragment(PojavLauncherActivity activity) {
+        this.activity = activity;
+    }
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_mods, container, false);
 
-        InstalledModAdapter installedModAdapter = new InstalledModAdapter();
+        InstalledModAdapter installedModAdapter = new InstalledModAdapter(activity);
         RecyclerView installedModsRecycler = view.findViewById(R.id.installedModsRecycler);
         installedModsRecycler.setLayoutManager(new LinearLayoutManager(installedModsRecycler.getContext()));
         installedModsRecycler.setAdapter(installedModAdapter);
 
-        APIModAdapter modAPIAdapter = new APIModAdapter(installedModAdapter);
+        APIModAdapter modAPIAdapter = new APIModAdapter(activity, installedModAdapter);
         RecyclerView apiModsRecycler = view.findViewById(R.id.apiModsRecycler);
         apiModsRecycler.setLayoutManager(new LinearLayoutManager(apiModsRecycler.getContext()));
         apiModsRecycler.setAdapter(modAPIAdapter);
 
-        Modrinth.addProjectsToRecycler(modAPIAdapter, "1.18.1", 0, "sodium");
+        State.Instance selectedInstance = ModManager.state.getInstance(activity.mProfile.selectedVersion);
+        Modrinth.addProjectsToRecycler(modAPIAdapter, selectedInstance.getGameVersion(), 0, "");
         return view;
     }
 
@@ -50,8 +59,9 @@ public class ModsFragment extends Fragment {
         private final TextView compatLevel;
         private String slug;
         private final InstalledModAdapter adapter;
+        private final PojavLauncherActivity activity;
 
-        public APIModViewHolder(View itemView, InstalledModAdapter adapter) {
+        public APIModViewHolder(PojavLauncherActivity activity, View itemView, InstalledModAdapter adapter) {
             super(itemView);
             icon = itemView.findViewById(R.id.apiModIcon);
             icon.setOnClickListener(this);
@@ -59,6 +69,7 @@ public class ModsFragment extends Fragment {
             description = itemView.findViewById(R.id.apiModDescription);
             compatLevel = itemView.findViewById(R.id.compatLevel);
             this.adapter = adapter;
+            this.activity = activity;
         }
 
         public void setSlug(String slug) {
@@ -73,7 +84,8 @@ public class ModsFragment extends Fragment {
             }
 
             try {
-                ModManager.addMod(adapter, "test", slug, "1.18.2");
+                State.Instance selectedInstance = ModManager.state.getInstance(activity.mProfile.selectedVersion);
+                ModManager.addMod(adapter, selectedInstance.getName(), slug, selectedInstance.getGameVersion());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -88,13 +100,16 @@ public class ModsFragment extends Fragment {
         private final Switch activeSwitch;
         private String slug;
 
-        public InstalledModViewHolder(@NonNull View itemView) {
+        public InstalledModViewHolder(PojavLauncherActivity activity, View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.installedModIcon);
             title = itemView.findViewById(R.id.installedModTitle);
             filename = itemView.findViewById(R.id.installedModDescription);
             activeSwitch = itemView.findViewById(R.id.active_switch);
-            activeSwitch.setOnCheckedChangeListener((button, value) -> ModManager.setModActive("test", slug, value));
+            activeSwitch.setOnCheckedChangeListener((button, value) -> {
+                State.Instance selectedInstance = ModManager.state.getInstance(activity.mProfile.selectedVersion);
+                ModManager.setModActive(selectedInstance.getName(), slug, value);
+            });
         }
 
         public void setSlug(String slug) {
@@ -106,8 +121,10 @@ public class ModsFragment extends Fragment {
 
         private final ArrayList<ModResult> mods = new ArrayList<>();
         private final InstalledModAdapter adapter;
+        private final PojavLauncherActivity activity;
 
-        public APIModAdapter(InstalledModAdapter adapter) {
+        public APIModAdapter(PojavLauncherActivity activity, InstalledModAdapter adapter) {
+            this.activity = activity;
             this.adapter = adapter;
         }
 
@@ -126,7 +143,7 @@ public class ModsFragment extends Fragment {
         @Override
         public APIModViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-            return new APIModViewHolder(view, adapter);
+            return new APIModViewHolder(activity, view, adapter);
         }
 
         @Override
@@ -153,10 +170,13 @@ public class ModsFragment extends Fragment {
     public static class InstalledModAdapter extends RecyclerView.Adapter<InstalledModViewHolder> {
 
         private final ArrayList<ModData> mods = new ArrayList<>();
+        private final PojavLauncherActivity activity;
 
-        public InstalledModAdapter() {
+        public InstalledModAdapter(PojavLauncherActivity activity) {
+            this.activity = activity;
             int posStart = mods.size();
-            mods.addAll(ModManager.listInstalledMods("test"));
+            State.Instance selectedInstance = ModManager.state.getInstance(activity.mProfile.selectedVersion);
+            mods.addAll(ModManager.listInstalledMods(selectedInstance.getName()));
             this.notifyItemRangeChanged(posStart, mods.size());
         }
 
@@ -175,7 +195,7 @@ public class ModsFragment extends Fragment {
         @Override
         public InstalledModViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-            return new InstalledModViewHolder(view);
+            return new InstalledModViewHolder(activity, view);
         }
 
         @Override

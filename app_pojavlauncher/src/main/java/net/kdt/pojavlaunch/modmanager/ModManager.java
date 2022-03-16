@@ -44,8 +44,8 @@ public class ModManager {
 
         //Load instance versions
         for (Instance instance : state.getInstances()) {
-            String profileName = String.format("%s-%s-%s", "fabric-loader", instance.getFabricLoaderVersion(), instance.getGameVersion());
-            JMinecraftVersionList.Version version = Tools.GLOBAL_GSON.fromJson(Tools.read(Tools.DIR_HOME_VERSION + "/" + profileName + "/" + profileName + ".json"), JMinecraftVersionList.Version.class);
+            JMinecraftVersionList.Version version = Tools.GLOBAL_GSON.fromJson(Tools.read(Tools.DIR_HOME_VERSION + "/" + instance.getFabricLoaderVersion() + "/" + instance.getFabricLoaderVersion() + ".json"), JMinecraftVersionList.Version.class);
+            version.id = instance.getName();
             version.arguments.jvm.add("-Dfabric.addMods=" + workDir + "/" + instance.getName());
             activity.mVersionList.versions.add(version);
         }
