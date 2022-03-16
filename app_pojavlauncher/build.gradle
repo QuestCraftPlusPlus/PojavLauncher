@@ -149,5 +149,10 @@ dependencies {
     implementation ('com.squareup.retrofit2:converter-gson:2.9.0') {
         exclude group: 'com.google.code.gson', module: 'gson'
     }
+}
 
+allprojects {
+    configurations.all {
+        resolutionStrategy.force 'net.fabricmc:installer:0.10.2'
+    }
 }
