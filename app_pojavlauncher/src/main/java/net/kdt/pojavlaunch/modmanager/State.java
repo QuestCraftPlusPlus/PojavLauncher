@@ -16,7 +16,7 @@ public class State {
 
     public Instance getInstance(String name) {
         for (Instance instance : instances) {
-            if (instance.name.equals(name)) return instance;
+            if (instance.name.equalsIgnoreCase(name)) return instance;
         }
         return null;
     }

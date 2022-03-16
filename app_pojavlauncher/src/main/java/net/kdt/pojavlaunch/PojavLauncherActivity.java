@@ -205,11 +205,9 @@ public class PojavLauncherActivity extends BaseLauncherActivity
         //adapterVer.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         //mVersionSelector.setAdapter(adapterVer);
 
-        try {
-            ModManager.init(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        ModManager.init(this);
+
 
         statusIsLaunching(false);
 
@@ -230,7 +228,7 @@ public class PojavLauncherActivity extends BaseLauncherActivity
         changeLookAndFeel(PREF_HIDE_SIDEBAR);
     }
 
-    private void selectTabPage(int pageIndex){
+    public void selectTabPage(int pageIndex){
         viewPager.setCurrentItem(pageIndex);
         setTabActive(pageIndex);
     }

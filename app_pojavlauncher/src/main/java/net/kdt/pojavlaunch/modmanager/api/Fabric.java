@@ -1,11 +1,15 @@
 package net.kdt.pojavlaunch.modmanager.api;
 
+import android.util.Log;
 import com.google.gson.annotations.SerializedName;
 import net.kdt.pojavlaunch.Tools;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 import java.io.File;
@@ -34,7 +38,7 @@ public class Fabric {
 
     public interface FabricLoaderJsonInf {
         @GET("versions/loader/{gameVersion}/{loaderVersion}/profile/json")
-        Call<String> getJson(@Query("gameVersion") String gameVersion, @Query("loaderVersion") String loaderVersion);
+        Call<ResponseBody> getJson(@Path("gameVersion") String gameVersion, @Path("loaderVersion") String loaderVersion);
     }
 
     public static class Version {
@@ -58,12 +62,19 @@ public class Fabric {
     //Won't do anything if version is already installed
     public static void install(String gameVersion, String loaderVersion) {
         String profileName = String.format("%s-%s-%s", "fabric-loader", loaderVersion, gameVersion);
-        if (new File(Tools.DIR_HOME_VERSION + "/versions/" + profileName + "/" + profileName + ".json").exists()) return;
+        if (new File(Tools.DIR_HOME_VERSION + "/" + profileName + "/" + profileName + ".json").exists()) return;
 
         try {
             FabricLoaderJsonInf jsonInf = getClient().create(FabricLoaderJsonInf.class);
-            String json = jsonInf.getJson(gameVersion, loaderVersion).execute().body();
-            if (json != null) Tools.write(Tools.DIR_HOME_VERSION + "/versions/" + profileName + "/" + profileName + ".json", json);
+            ResponseBody json = jsonInf.getJson(gameVersion, loaderVersion).execute().body();
+
+            if (json != null) {
+                File path = new File(Tools.DIR_HOME_VERSION + "/" + profileName);
+                if (!path.exists()) path.mkdirs();
+                Log.d("FABRIC", path.getPath());
+
+                Tools.write(path.getPath() + "/" + profileName + ".json", json.string());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

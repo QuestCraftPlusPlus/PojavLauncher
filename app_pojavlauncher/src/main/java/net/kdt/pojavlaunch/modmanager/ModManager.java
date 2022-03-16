@@ -1,5 +1,6 @@
 package net.kdt.pojavlaunch.modmanager;
 
+import android.util.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.kdt.pojavlaunch.BaseLauncherActivity;
@@ -31,28 +32,46 @@ public class ModManager {
     private static final ArrayList<String> currentDownloadSlugs = new ArrayList<>();
     private static boolean saveStateCalled = false;
 
-    public static void init(BaseLauncherActivity activity) throws IOException {
-        File path = new File(workDir);
-        if (!path.exists()) path.mkdir();
+    public static void init(BaseLauncherActivity activity) {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    File path = new File(workDir);
+                    if (!path.exists()) path.mkdir();
 
-        File modsJson = new File(workDir + "/mods.json");
-        if (!modsJson.exists()) {
-            createInstance(activity, "QuestCraft", Tools.getCompatibleVersions("releases").get(0));
-        } else {
-            state = Tools.GLOBAL_GSON.fromJson(Tools.read(modsJson.getPath()), State.class);
-        }
+                    File modsJson = new File(workDir + "/mods.json");
+                    if (!modsJson.exists()) {
+                        String gameVersion = Tools.getCompatibleVersions("releases").get(0);
+                        String flVersion = Fabric.getLatestLoaderVersion();
+                        Fabric.install(gameVersion, flVersion);
 
-        //Load instance versions
-        for (Instance instance : state.getInstances()) {
-            JMinecraftVersionList.Version version = Tools.GLOBAL_GSON.fromJson(Tools.read(Tools.DIR_HOME_VERSION + "/" + instance.getFabricLoaderVersion() + "/" + instance.getFabricLoaderVersion() + ".json"), JMinecraftVersionList.Version.class);
-            version.id = instance.getName();
-            version.arguments.jvm.add("-Dfabric.addMods=" + workDir + "/" + instance.getName());
-            activity.mVersionList.versions.add(version);
-        }
-        new RefreshVersionListTask(activity).execute();
+                        String profileName = String.format("%s-%s-%s", "fabric-loader", flVersion, gameVersion);
+                        Instance instance = new Instance();
+                        instance.setName("QuestCraft-" + gameVersion);
+                        instance.setGameVersion(gameVersion);
+                        instance.setFabricLoaderVersion(profileName);
+                        state.addInstance(instance);
+                        Tools.write(modsJson.getPath(), Tools.GLOBAL_GSON.toJson(state)); //Cant use save state cause async issues
+                    } else state = Tools.GLOBAL_GSON.fromJson(Tools.read(modsJson.getPath()), net.kdt.pojavlaunch.modmanager.State.class);
 
-        InputStream stream = PojavApplication.assetManager.open("jsons/mod-compat.json");
-        modCompats = Tools.GLOBAL_GSON.fromJson(Tools.read(stream), JsonObject.class);
+                    //Load instance versions
+                    for (Instance instance : state.getInstances()) {
+                        JMinecraftVersionList.Version version = Tools.GLOBAL_GSON.fromJson(Tools.read(Tools.DIR_HOME_VERSION + "/" + instance.getFabricLoaderVersion() + "/" + instance.getFabricLoaderVersion() + ".json"), JMinecraftVersionList.Version.class);
+                        version.id = instance.getName();
+                        version.arguments.jvm.add("-Dfabric.addMods=" + workDir + "/" + instance.getName());
+                        activity.mVersionList.versions.add(version);
+                    }
+                    new RefreshVersionListTask(activity).execute();
+
+                    InputStream stream = PojavApplication.assetManager.open("jsons/mod-compat.json");
+                    modCompats = Tools.GLOBAL_GSON.fromJson(Tools.read(stream), JsonObject.class);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
     }
 
     public static String getModCompat(String slug) {
@@ -81,6 +100,8 @@ public class ModManager {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                //fabric-loader-0.13.3-1.18.2/fabric-loader-0.13.3-1.18.2.json
+                //fabric-loader-0.13.3-1.18.2/fabric-loader-0.13.3-1.18.2.json
             }
         };
         if (!saveStateCalled) {
@@ -114,7 +135,6 @@ public class ModManager {
                     version.arguments.jvm.add("-Dfabric.addMods=" + workDir + "/" + name);
                     activity.mVersionList.versions.add(version);
                     new RefreshVersionListTask(activity).execute();
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
