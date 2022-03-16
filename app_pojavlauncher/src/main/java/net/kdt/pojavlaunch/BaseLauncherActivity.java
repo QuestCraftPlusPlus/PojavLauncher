@@ -26,15 +26,16 @@ import org.apache.commons.io.IOUtils;
 
 public abstract class BaseLauncherActivity extends BaseActivity {
 	public Button mPlayButton;
+    public Button mAddInstanceButton;
     public ProgressBar mLaunchProgress;
 	public Spinner mVersionSelector;
 	public MultiRTConfigDialog mRuntimeConfigDialog;
 	public TextView mLaunchTextStatus;
     
-    public JMinecraftVersionList mVersionList;
+    public JMinecraftVersionList mVersionList = new JMinecraftVersionList();
 	public MinecraftDownloaderTask mTask;
 	public MinecraftAccount mProfile;
-	public String[] mAvailableVersions;
+	//public String[] mAvailableVersions;
     
 	public boolean mIsAssetsProcessing = false;
     protected boolean canBack = false;
@@ -154,11 +155,10 @@ public abstract class BaseLauncherActivity extends BaseActivity {
     protected void onResumeFragments() {
         super.onResumeFragments();
         if(listRefreshListener == null) {
-            final BaseLauncherActivity thiz = this;
             listRefreshListener = (sharedPreferences, key) -> {
                 if(key.startsWith("vertype_")) {
                     System.out.println("Verlist update needed!");
-                    new RefreshVersionListTask(thiz).execute();
+                    new RefreshVersionListTask(this).execute();
                 }
             };
         }

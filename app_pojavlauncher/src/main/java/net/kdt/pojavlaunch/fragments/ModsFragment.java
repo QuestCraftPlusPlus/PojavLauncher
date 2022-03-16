@@ -1,6 +1,5 @@
 package net.kdt.pojavlaunch.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import net.kdt.pojavlaunch.R;
+import net.kdt.pojavlaunch.modmanager.ModManager;
 import net.kdt.pojavlaunch.modmanager.api.ModData;
 import net.kdt.pojavlaunch.modmanager.api.ModResult;
 import net.kdt.pojavlaunch.modmanager.api.Modrinth;
-import net.kdt.pojavlaunch.modmanager.ModManager;
 
 import java.io.IOException;
 import java.util.ArrayList;

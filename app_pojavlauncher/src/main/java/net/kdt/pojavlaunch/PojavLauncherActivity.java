@@ -32,15 +32,14 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import net.kdt.pojavlaunch.extra.ExtraCore;
 import net.kdt.pojavlaunch.extra.ExtraListener;
-import net.kdt.pojavlaunch.fragments.ConsoleFragment;
-import net.kdt.pojavlaunch.fragments.CrashFragment;
-import net.kdt.pojavlaunch.fragments.LauncherFragment;
-import net.kdt.pojavlaunch.fragments.ModsFragment;
+import net.kdt.pojavlaunch.fragments.*;
+import net.kdt.pojavlaunch.modmanager.ModManager;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
 import net.kdt.pojavlaunch.prefs.screens.LauncherPreferenceFragment;
 import net.kdt.pojavlaunch.value.MinecraftAccount;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,6 +98,7 @@ public class PojavLauncherActivity extends BaseLauncherActivity
         mLaunchTextStatus = findViewById(R.id.progressDownloadText);
         logoutBtn = findViewById(R.id.installJarButton);
         mPlayButton = findViewById(R.id.launchermainPlayButton);
+        mAddInstanceButton = findViewById(R.id.add_instance_button);
         Tabs[0] = findViewById(R.id.btnTab1);
         Tabs[1] = findViewById(R.id.btnTab2);
         Tabs[2] = findViewById(R.id.btnTab3);
@@ -201,7 +201,14 @@ public class PojavLauncherActivity extends BaseLauncherActivity
         //adapterVer.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         //mVersionSelector.setAdapter(adapterVer);
 
+        try {
+            ModManager.init(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         statusIsLaunching(false);
+
 
 
         //Add the preference changed listener
@@ -242,7 +249,6 @@ public class PojavLauncherActivity extends BaseLauncherActivity
         mLaunchProgress.setVisibility(launchVisibility);
         mLaunchTextStatus.setVisibility(launchVisibility);
 
-
         logoutBtn.setEnabled(!isLaunching);
         mVersionSelector.setEnabled(!isLaunching);
         canBack = !isLaunching;
@@ -255,6 +261,11 @@ public class PojavLauncherActivity extends BaseLauncherActivity
                 return;
             }
         }
+    }
+
+    public void showAddInstancePopup(View view) {
+        CreateInstancePopupFragment popup = new CreateInstancePopupFragment(this);
+        popup.show(this.getSupportFragmentManager(), "");
     }
 
     private void setTabActive(int index){

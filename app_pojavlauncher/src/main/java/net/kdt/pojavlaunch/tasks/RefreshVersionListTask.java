@@ -33,7 +33,7 @@ public class RefreshVersionListTask extends AsyncTask<Void, Void, ArrayList<Stri
     {
         try {
             //mActivity.mVersionList = Tools.GLOBAL_GSON.fromJson(DownloadUtils.downloadString(""), JMinecraftVersionList.class);
-            {
+            /*{
                 ArrayList<JMinecraftVersionList.Version> versions = new ArrayList<>();
                 String[] repositories = LauncherPreferences.PREF_VERSION_REPOS.split(";");
                 for (String url : repositories) {
@@ -46,9 +46,11 @@ public class RefreshVersionListTask extends AsyncTask<Void, Void, ArrayList<Stri
                 mActivity.mVersionList = new JMinecraftVersionList();
                 mActivity.mVersionList.versions = versions.toArray(new JMinecraftVersionList.Version[versions.size()]);
                 Log.i("ExtVL","Final list size: " + mActivity.mVersionList.versions.length);
-            }
+            }*/
 
-            return filter(mActivity.mVersionList.versions, new File(Tools.DIR_HOME_VERSION).listFiles());
+
+
+            return filter(mActivity.mVersionList.versions);
         } catch (Exception e){
             System.out.println("Refreshing version list failed !");
             e.printStackTrace();
@@ -68,9 +70,9 @@ public class RefreshVersionListTask extends AsyncTask<Void, Void, ArrayList<Stri
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
             mActivity.mVersionSelector.setAdapter(adapter);
             mActivity.mVersionSelector.setSelection(selectAt(result.toArray(new String[0]), mActivity.mProfile.selectedVersion));
-        } else {
+        } /*else {
             mActivity.mVersionSelector.setSelection(selectAt(mActivity.mAvailableVersions, mActivity.mProfile.selectedVersion));
-        }
+        }*/
         PerVersionConfigDialog dialog = new PerVersionConfigDialog(this.mActivity);
         mActivity.mVersionSelector.setOnLongClickListener((v)->dialog.openConfig(mActivity.mProfile.selectedVersion));
         mActivity.mVersionSelector.setOnItemSelectedListener(new OnItemSelectedListener(){
@@ -111,8 +113,8 @@ public class RefreshVersionListTask extends AsyncTask<Void, Void, ArrayList<Stri
 
     }
     
-    private ArrayList<String> filter(JMinecraftVersionList.Version[] list1, File[] list2) {
-        ArrayList<String> output = new ArrayList<String>();
+    private ArrayList<String> filter(List<JMinecraftVersionList.Version> list1) {
+        ArrayList<String> output = new ArrayList<>();
 
         for (JMinecraftVersionList.Version value1: list1) {
             if ((value1.type.equals("release") && LauncherPreferences.PREF_VERTYPE_RELEASE) ||
@@ -124,11 +126,11 @@ public class RefreshVersionListTask extends AsyncTask<Void, Void, ArrayList<Stri
             }
         }
 
-        if(list2 != null) for (File value2: list2) {
+        /*if(list2 != null) for (File value2: list2) {
             if (!output.contains(value2.getName())) {
                 output.add(value2.getName());
             }
-        }
+        }*/
 
         return output;
     }

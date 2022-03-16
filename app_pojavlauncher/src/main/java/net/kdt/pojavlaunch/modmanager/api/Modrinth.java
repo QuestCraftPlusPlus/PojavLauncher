@@ -1,6 +1,7 @@
 package net.kdt.pojavlaunch.modmanager.api;
 
 import android.util.Log;
+import androidx.annotation.Keep;
 import com.google.gson.annotations.SerializedName;
 import net.kdt.pojavlaunch.fragments.ModsFragment;
 import retrofit2.Call;
@@ -116,15 +117,11 @@ public class Modrinth {
 
     public static void addProjectsToRecycler(ModsFragment.APIModAdapter adapter, String version, int offset, String query) {
         ModrinthSearchInf searchInf = getClient().create(ModrinthSearchInf.class);
-        Call<ModrinthSearchResult> call = searchInf.searchMods(50);
-
-        call.enqueue(new Callback<ModrinthSearchResult>() {
+        searchInf.searchMods(50).enqueue(new Callback<ModrinthSearchResult>() {
             @Override
             public void onResponse(Call<ModrinthSearchResult> call, Response<ModrinthSearchResult> response) {
                 ModrinthSearchResult mods = response.body();
-                if (mods != null) {
-                    adapter.addMods(mods);
-                }
+                if (mods != null) adapter.addMods(mods);
             }
 
             @Override

@@ -63,7 +63,6 @@ public class PojavApplication extends Application {
             // Tools.FILE_ACCOUNT_JSON = getFilesDir().getAbsolutePath() + "/account_profiles.json";
 
 			assetManager = getAssets();
-			ModManager.init();
 
 			Tools.DEVICE_ARCHITECTURE = Architecture.getDeviceArchitecture();
 			//Force x86 lib directory for Asus x86 based zenfones

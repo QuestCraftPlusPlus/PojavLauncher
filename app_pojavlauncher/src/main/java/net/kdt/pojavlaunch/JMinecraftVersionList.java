@@ -11,7 +11,7 @@ public class JMinecraftVersionList {
     public static final String TYPE_RELEASE = "release";
     public static final String TYPE_SNAPSHOT = "snapshot";
     public Map<String, String> latest;
-    public Version[] versions;
+    public final List<Version> versions = new ArrayList<>();
 
     @Keep
     public static class FileProperties {
@@ -58,8 +58,8 @@ public class JMinecraftVersionList {
     // Since 1.13
     @Keep
     public static class Arguments {
-        public Object[] game;
-        public Object[] jvm;
+        public List<String> game = new ArrayList<>();
+        public List<String> jvm = new ArrayList<>();
 
         @Keep
         public static class ArgValue {

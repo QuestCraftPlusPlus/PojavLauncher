@@ -356,11 +356,7 @@ public final class Tools {
         ArrayList<String> versions = new ArrayList<>();
         try {
             InputStream stream = PojavApplication.assetManager.open("jsons/version-compat.json");
-            byte[] buffer = new byte[stream.available()];
-            stream.read(buffer);
-
-            Gson gson = new Gson();
-            JsonObject versionsJson = (JsonObject) gson.toJsonTree(new String(buffer));
+            JsonObject versionsJson = GLOBAL_GSON.fromJson(read(stream), JsonObject.class);
 
             for (JsonElement version : versionsJson.getAsJsonArray(tag)) {
                 versions.add(version.getAsString());
@@ -695,23 +691,23 @@ public final class Tools {
 
                 // Inheriting Minecraft 1.13+ with append custom args
                 if (inheritsVer.arguments != null && customVer.arguments != null) {
-                    List totalArgList = new ArrayList();
-                    totalArgList.addAll(Arrays.asList(inheritsVer.arguments.game));
+                    List<String> totalArgList = new ArrayList();
+                    totalArgList.addAll(inheritsVer.arguments.game);
                     
                     int nskip = 0;
-                    for (int i = 0; i < customVer.arguments.game.length; i++) {
+                    for (int i = 0; i < customVer.arguments.game.size(); i++) {
                         if (nskip > 0) {
                             nskip--;
                             continue;
                         }
                         
-                        Object perCustomArg = customVer.arguments.game[i];
-                        if (perCustomArg instanceof String) {
+                        Object perCustomArg = customVer.arguments.game.get(i);
+                        if (perCustomArg != null) {
                             String perCustomArgStr = (String) perCustomArg;
                             // Check if there is a duplicate argument on combine
                             if (perCustomArgStr.startsWith("--") && totalArgList.contains(perCustomArgStr)) {
-                                perCustomArg = customVer.arguments.game[i + 1];
-                                if (perCustomArg instanceof String) {
+                                perCustomArg = customVer.arguments.game.get(i + 1);
+                                if (perCustomArg != null) {
                                     perCustomArgStr = (String) perCustomArg;
                                     // If the next is argument value, skip it
                                     if (!perCustomArgStr.startsWith("--")) {
@@ -722,11 +718,11 @@ public final class Tools {
                                 totalArgList.add(perCustomArgStr);
                             }
                         } else if (!totalArgList.contains(perCustomArg)) {
-                            totalArgList.add(perCustomArg);
+                            totalArgList.add((String) perCustomArg);
                         }
                     }
 
-                    inheritsVer.arguments.game = totalArgList.toArray(new Object[0]);
+                    inheritsVer.arguments.game = totalArgList;
                 }
 
                 return inheritsVer;
