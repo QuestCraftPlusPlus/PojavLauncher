@@ -1,6 +1,5 @@
 package net.kdt.pojavlaunch.modmanager;
 
-import android.util.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.kdt.pojavlaunch.BaseLauncherActivity;

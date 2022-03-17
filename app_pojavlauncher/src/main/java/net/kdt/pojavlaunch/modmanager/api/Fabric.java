@@ -71,8 +71,6 @@ public class Fabric {
             if (json != null) {
                 File path = new File(Tools.DIR_HOME_VERSION + "/" + profileName);
                 if (!path.exists()) path.mkdirs();
-                Log.d("FABRIC", path.getPath());
-
                 Tools.write(path.getPath() + "/" + profileName + ".json", json.string());
             }
         } catch (IOException e) {

@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MinecraftDownloaderTask extends AsyncTask<String, String, Throwable>
  {
-    private BaseLauncherActivity mActivity;
+    private final BaseLauncherActivity mActivity;
     private boolean launchWithError = false;
     MinecraftDownloaderTask thiz = this;
     public MinecraftDownloaderTask(BaseLauncherActivity activity) {
@@ -46,6 +46,12 @@ public class MinecraftDownloaderTask extends AsyncTask<String, String, Throwable
         Throwable throwable = null;
         try {
             verInfo = findVersion(p1[0]);
+
+            if (verInfo == null) {
+                return new Throwable("No version found");
+            }
+
+            Log.d("HELP", verInfo.id);
 
             final String downVName = "/" + verInfo.id + "/" + verInfo.id;
             //Downloading libraries
@@ -90,7 +96,7 @@ public class MinecraftDownloaderTask extends AsyncTask<String, String, Throwable
                     }
                 }
 
-                verInfo = Tools.getVersionInfo(mActivity,p1[0]);
+                verInfo = Tools.getVersionInfo(mActivity, verInfo.id);
 
                 //Now we have the reliable information to check if our runtime settings are good enough
                 if(verInfo.javaVersion != null) { //1.17+
@@ -497,15 +503,15 @@ public class MinecraftDownloaderTask extends AsyncTask<String, String, Throwable
     }
 
     private JMinecraftVersionList.Version findVersion(String version) {
-        if (mActivity.mVersionList != null) {
-            for (JMinecraftVersionList.Version valueVer: mActivity.mVersionList.versions) {
-                if (valueVer.name.equals(version)) {
-                    return valueVer;
-                }
+        for (JMinecraftVersionList.Version valueVer: mActivity.mVersionList.versions) {
+            if (valueVer.name.equals(version)) {
+                Log.d("VERSION", valueVer.name);
+                return valueVer;
             }
         }
 
         // Custom version, inherits from base.
-        return Tools.getVersionInfo(mActivity,version);
+        //return Tools.getVersionInfo(mActivity, version);
+        return null;
     }
 }
