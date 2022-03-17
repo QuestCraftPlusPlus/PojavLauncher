@@ -642,11 +642,13 @@ public final class Tools {
                     customVer.optifineLib = lib;
                 }
             }
+            if (customVer != null) return customVer;
+
             if (customVer.inheritsFrom == null || customVer.inheritsFrom.equals(customVer.id)) {
                 return customVer;
             } else {
-                JMinecraftVersionList.Version inheritsVer = null;
-                if(bla != null) if (bla.mVersionList != null) {
+                JMinecraftVersionList.Version inheritsVer;
+                if(bla != null && bla.mVersionList != null) {
                     for (JMinecraftVersionList.Version valueVer : bla.mVersionList.versions) {
                         if (valueVer.id.equals(customVer.inheritsFrom) && (!new File(DIR_HOME_VERSION + "/" + customVer.inheritsFrom + "/" + customVer.inheritsFrom + ".json").exists()) && (valueVer.url != null)) {
                             Tools.downloadFile(valueVer.url,DIR_HOME_VERSION + "/" + customVer.inheritsFrom + "/" + customVer.inheritsFrom + ".json");
