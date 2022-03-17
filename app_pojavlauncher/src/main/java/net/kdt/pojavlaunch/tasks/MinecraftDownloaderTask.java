@@ -496,7 +496,7 @@ public class MinecraftDownloaderTask extends AsyncTask<String, String, Throwable
     private JMinecraftVersionList.Version findVersion(String version) {
         if (mActivity.mVersionList != null) {
             for (JMinecraftVersionList.Version valueVer: mActivity.mVersionList.versions) {
-                if (valueVer.id.equals(version)) {
+                if (valueVer.name.equals(version)) {
                     return valueVer;
                 }
             }

@@ -106,7 +106,7 @@ public abstract class BaseLauncherActivity extends BaseActivity {
             v.setEnabled(false);
             mTask = new MinecraftDownloaderTask(this);
             // TODO: better check!!!
-            if (mProfile.accessToken.equals("0")) {
+            /*if (mProfile.accessToken.equals("0")) {
                 File verJsonFile = new File(Tools.DIR_HOME_VERSION,
                   mProfile.selectedVersion + "/" + mProfile.selectedVersion + ".json");
                 if (verJsonFile.exists()) {
@@ -118,10 +118,9 @@ public abstract class BaseLauncherActivity extends BaseActivity {
                         .setPositiveButton(android.R.string.ok, null)
                         .show();
                 }
-            } else {
-                mTask.execute(mProfile.selectedVersion);
-            }
-
+            } else {*/
+            mTask.execute(mProfile.selectedVersion);
+            //}
         }
     }
     
