@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:installLocation="auto"
     xmlns:tools="http://schemas.android.com/tools"
     package="net.kdt.pojavlaunch">
 
@@ -35,8 +36,8 @@
         <meta-data android:name="com.oculus.vr.focusaware" android:value="true"/>
         <activity
             android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="sensorLandscape"
+            android:launchMode="singleTask"
+            android:screenOrientation="DEFAULT"
             android:label="@string/app_short_name"
             android:name=".PojavLoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation">
