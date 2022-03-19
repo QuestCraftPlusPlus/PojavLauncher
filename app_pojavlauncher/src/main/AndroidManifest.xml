@@ -33,8 +33,9 @@
         <meta-data android:name="com.oculus.supportedDevices" android:value="quest|quest2"/>
         <activity
             android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="sensorLandscape"
+            android:launchMode="singleTask"
+            android:installLocation="auto"
+            android:screenOrientation="10"
             android:label="@string/app_short_name"
             android:name=".PojavLoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation">
