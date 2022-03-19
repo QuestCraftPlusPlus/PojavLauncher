@@ -37,7 +37,7 @@
         <activity
             android:exported="true"
             android:launchMode="singleTask"
-            android:screenOrientation="DEFAULT"
+            android:screenOrientation="landscape"
             android:label="@string/app_short_name"
             android:name=".PojavLoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation">
