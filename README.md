@@ -20,7 +20,7 @@ PojavLauncher is a Minecraft: Java Edition launcher for Android and iOS based on
 - Check the Wiki.
 
 ## Current status
-- Coming Soon
+- [![Android CI](https://github.com/Slash-Kill/QuestCraft-App-Lab/actions/workflows/android.yml/badge.svg)](https://github.com/Slash-Kill/QuestCraft-App-Lab/actions/workflows/android.yml)
 
 ## Known Issues
 - Coming Soon
