@@ -14,7 +14,7 @@
 - [Credits & Third party components and their licenses](Credits-&-Third-party-components-and-their-licenses-if-available)
 
 ## Introduction 
-PojavLauncher is a Minecraft: Java Edition launcher for Android and iOS based on Boardwalk. This launcher has been modified for use in QuestCraft (QCXR) and all underlying base code is supplied for free by the PojavLauncher Team.
+PojavLauncher is a Minecraft: Java Edition launcher for Android and iOS based on [Boardwalk](https://github.com/zhuowei/Boardwalk). This launcher has been modified for use in QuestCraft (QCXR) and all underlying base code is supplied for free by the PojavLauncher Team. 
 
 ## Building
 - Build Instructions Coming Soon
