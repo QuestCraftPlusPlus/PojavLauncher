@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:installLocation="auto"
     xmlns:tools="http://schemas.android.com/tools"
     package="net.kdt.pojavlaunch">
 
@@ -25,25 +24,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:resizeableActivity="true"
         android:hasFragileUserData="true"
-        android:allowNativeHeapPointerTagging="false"
-        >
+        android:allowNativeHeapPointerTagging="false">
 
         <meta-data 
             android:name="android.max_aspect"
             android:value="ratio_float"/>
         <meta-data android:name="com.oculus.intent.category.VR" android:value="vr_only"/>
         <meta-data android:name="com.oculus.supportedDevices" android:value="quest|quest2"/>
-        <meta-data android:name="com.oculus.vr.focusaware" android:value="true"/>
         <activity
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="landscape"
+            android:launchMode="singleTop"
+            android:screenOrientation="sensorLandscape"
             android:label="@string/app_short_name"
             android:name=".PojavLoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-                <category android:name="com.oculus.intent.category.VR" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

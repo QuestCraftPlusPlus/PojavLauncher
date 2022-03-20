@@ -18,7 +18,14 @@
 QuestCraft on App Lab is Minecraft VR on the Oculus App Lab.
 
 ## Building
+<<<<<<< HEAD
 - [Building Guide](https://github.com/Slash-Kill/QuestCraft-App-Lab/wiki/Building#building-questcraft-launcher)
+=======
+- Build Instructions Coming Soon
+
+## Current status
+- Coming Soon
+>>>>>>> parent of 12a332138 (Merge pull request #1 from Slash-Kill/feature/app-lab)
 
 ## Known Issues
 - Coming Soon
