@@ -1,4 +1,5 @@
-# QuestCraft | Base provided by the PojavLauncher team free of charge.
+# QuestCraft (App Lab) | Base provided by the PojavLauncher team free of charge.
+[![Android CI](https://github.com/Slash-Kill/QuestCraft-App-Lab/actions/workflows/android.yml/badge.svg)](https://github.com/Slash-Kill/QuestCraft-App-Lab/actions/workflows/android.yml)
 
 ## Note
 - We do not exist on TikTok. No one from the dev team makes TikTok videos. 
@@ -14,13 +15,10 @@
 - [Credits & Third party components and their licenses](Credits-&-Third-party-components-and-their-licenses-if-available)
 
 ## Introduction 
-PojavLauncher is a Minecraft: Java Edition launcher for Android and iOS based on [Boardwalk](https://github.com/zhuowei/Boardwalk). This launcher has been modified for use in QuestCraft (QCXR) and all underlying base code is supplied for free by the PojavLauncher Team. 
+QuestCraft on App Lab is Minecraft VR on the Oculus App Lab.
 
 ## Building
-- Check the Wiki.
-
-## Current status
-- [![Android CI](https://github.com/Slash-Kill/QuestCraft-App-Lab/actions/workflows/android.yml/badge.svg)](https://github.com/Slash-Kill/QuestCraft-App-Lab/actions/workflows/android.yml)
+- [Building Guide](https://github.com/Slash-Kill/QuestCraft-App-Lab/wiki/Building#building-questcraft-launcher)
 
 ## Known Issues
 - Coming Soon
