@@ -120,10 +120,6 @@ jobs:
           branch: buildjre17
           name: jre17-pojav
 
-      - name: Clean Artifacts Folder
-        run: |
-          rm -rf app_pojavlauncher/main/src/assets/artifacts/*
-
       - name: Build APK with Gradle
         run: |
           chmod +x scripts/languagelist_updater.sh
