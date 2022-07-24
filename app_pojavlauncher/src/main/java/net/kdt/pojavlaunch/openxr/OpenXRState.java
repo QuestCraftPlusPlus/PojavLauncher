@@ -80,7 +80,8 @@ public class OpenXRState {
             PojavLauncherPlayClient.POJAV_RENDERER.setSession(session);
         } catch (Exception e) {
             LOGGER.error("Exception caught while initializing OpenXR", e);
-            if (e instanceof XrException xrException) {
+            if (e instanceof XrException) {
+                XrException xrException = (XrException) e;
                 createException = xrException;
             }
             if (instance != null) instance.close();
