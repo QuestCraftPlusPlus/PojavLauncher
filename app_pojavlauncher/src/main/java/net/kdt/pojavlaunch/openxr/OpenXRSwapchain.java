@@ -1,8 +1,8 @@
 package net.kdt.pojavlaunch.openxr;
 
-import com.mojang.blaze3d.pipeline.TextureTarget;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
+//import com.mojang.blaze3d.pipeline.TextureTarget;
+//import com.mojang.blaze3d.systems.RenderSystem;
+//import net.minecraft.client.Minecraft;
 import net.kdt.pojavlaunch.rendering.XrRenderTarget;
 import org.lwjgl.openxr.*;
 import org.lwjgl.system.MemoryStack;
@@ -25,7 +25,8 @@ public class OpenXRSwapchain implements AutoCloseable {
     public final XrRenderTarget[] leftFramebuffers;
     public final XrRenderTarget[] rightFramebuffers;
 
-    public TextureTarget renderTarget;
+    // TODO: Replace with non-mojang code
+//    public TextureTarget renderTarget;
 
     //TODO make two swapchains path for GL4ES compat
 
@@ -55,14 +56,15 @@ public class OpenXRSwapchain implements AutoCloseable {
             this.rightFramebuffers = new XrRenderTarget[imageCount];
 
             for (int i = 0; i < imageCount; i++) {
-                var openxrImage = swapchainImageBuffer.get(i);
+                XrSwapchainImageOpenGLESKHR openxrImage = swapchainImageBuffer.get(i);
                 arrayImages[i] = openxrImage.image();
                 leftFramebuffers[i] = new XrRenderTarget(width, height, arrayImages[i], 0);
                 rightFramebuffers[i] = new XrRenderTarget(width, height, arrayImages[i], 1);
             }
 
-            renderTarget = new TextureTarget((int) (width * PlayOptions.SSAA), (int) (height * PlayOptions.SSAA), true, Minecraft.ON_OSX);
-            renderTarget.setClearColor(239 / 255f, 50 / 255f, 61 / 255f, 255 / 255f);
+            // TODO: Replace with non-mojang code
+//            renderTarget = new TextureTarget((int) width, (int) height, true, false);
+//            renderTarget.setClearColor(239 / 255f, 50 / 255f, 61 / 255f, 255 / 255f);
         }
     }
 
@@ -86,16 +88,17 @@ public class OpenXRSwapchain implements AutoCloseable {
     @Override
     public void close() {
         XR10.xrDestroySwapchain(handle);
-        if (renderTarget != null) {
-            RenderSystem.recordRenderCall(() -> {
-                for (var fb : rightFramebuffers) {
-                    fb.destroyBuffers();
-                }
-                for (var fb : leftFramebuffers) {
-                    fb.destroyBuffers();
-                }
-                renderTarget.destroyBuffers();
-            });
-        }
+        // TODO: Replace with non-mojang code
+//        if (renderTarget != null) {
+//            RenderSystem.recordRenderCall(() -> {
+//                for (XrRenderTarget fb : rightFramebuffers) {
+//                    fb.destroyBuffers();
+//                }
+//                for (XrRenderTarget fb : leftFramebuffers) {
+//                    fb.destroyBuffers();
+//                }
+//                renderTarget.destroyBuffers();
+//            });
+//        }
     }
 }
