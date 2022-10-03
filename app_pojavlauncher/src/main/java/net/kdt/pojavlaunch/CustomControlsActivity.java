@@ -44,22 +44,17 @@ public class CustomControlsActivity extends BaseActivity {
 
 		mDrawerNavigationView.setNavigationItemSelectedListener(
 				menuItem -> {
-					switch (menuItem.getItemId()) {
-						case R.id.menu_ctrl_load:
-							load(mControlLayout);
-							break;
-						case R.id.menu_ctrl_add:
-							mControlLayout.addControlButton(new ControlData("New"));
-							break;
-						case R.id.menu_ctrl_add_drawer:
-							mControlLayout.addDrawer(new ControlDrawerData());
-							break;
-						case R.id.menu_ctrl_selectdefault:
-							dialogSelectDefaultCtrl(mControlLayout);
-							break;
-						case R.id.menu_ctrl_save:
-							save(false, mControlLayout);
-							break;
+					int itemId = menuItem.getItemId();
+					if (itemId == R.id.menu_ctrl_load) {
+						load(mControlLayout);
+					} else if (itemId == R.id.menu_ctrl_add) {
+						mControlLayout.addControlButton(new ControlData("New"));
+					} else if (itemId == R.id.menu_ctrl_add_drawer) {
+						mControlLayout.addDrawer(new ControlDrawerData());
+					} else if (itemId == R.id.menu_ctrl_selectdefault) {
+						dialogSelectDefaultCtrl(mControlLayout);
+					} else if (itemId == R.id.menu_ctrl_save) {
+						save(false, mControlLayout);
 					}
 					//Toast.makeText(MainActivity.this, menuItem.getTitle() + ":" + menuItem.getItemId(), Toast.LENGTH_SHORT).show();
 

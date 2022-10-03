@@ -44,6 +44,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.qcxr.activitywrapper.AppContainer;
+
 import net.kdt.pojavlaunch.authenticator.microsoft.MicrosoftAuthTask;
 import net.kdt.pojavlaunch.authenticator.microsoft.ui.MicrosoftLoginGUIActivity;
 import net.kdt.pojavlaunch.authenticator.mojang.InvalidateTokenTask;
@@ -327,7 +329,6 @@ public class PojavLoginActivity extends BaseActivity {
         mkdirs(Tools.CTRLMAP_PATH);
 
         try {
-            new CustomControls(this).save(Tools.CTRLDEF_FILE);
             Tools.copyAssetFile(this, "components/security/pro-grade.jar", Tools.DIR_DATA, true);
             Tools.copyAssetFile(this, "components/security/java_sandbox.policy", Tools.DIR_DATA, true);
             Tools.copyAssetFile(this, "options.txt", Tools.DIR_GAME_NEW, false);
@@ -351,12 +352,6 @@ public class PojavLoginActivity extends BaseActivity {
 
             unpackComponent(am, "caciocavallo");
             unpackComponent(am, "lwjgl3");
-            if(!installRuntimeAutomatically(am,MultiRTUtils.getRuntimes().size() > 0)) {
-                MultiRTConfigDialog.openRuntimeSelector(this, MultiRTConfigDialog.MULTIRT_PICK_RUNTIME_STARTUP);
-                synchronized (mLockSelectJRE) {
-                    mLockSelectJRE.wait();
-                }
-            }
             if(Build.VERSION.SDK_INT > 28) runOnUiThread(this::showStorageDialog);
             LauncherPreferences.loadPreferences(getApplicationContext());
         }
@@ -533,8 +528,7 @@ public class PojavLoginActivity extends BaseActivity {
 
 
     public void loginMicrosoft(View view) {
-        Intent i = new Intent(this,MicrosoftLoginGUIActivity.class);
-        startActivityForResult(i,MicrosoftLoginGUIActivity.AUTHENTICATE_MICROSOFT_REQUEST);
+        AppContainer.getInstance().addActivityView(MicrosoftLoginGUIActivity.class, 1920, 1080);
     }
 
     @Override
@@ -587,6 +581,9 @@ public class PojavLoginActivity extends BaseActivity {
         if(accountArr.length == 0){
             showNoAccountDialog();
             return;
+        } else if(accountArr.length == 1){
+            mProfile = MinecraftAccount.load(accountArr[0]);
+            playProfile(false);
         }
 
         final Dialog accountDialog = new Dialog(PojavLoginActivity.this);

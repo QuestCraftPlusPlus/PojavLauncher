@@ -11,6 +11,8 @@ import android.content.*;
 import android.os.*;
 import android.util.*;
 
+import com.qcxr.activitywrapper.AppContainer;
+
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -395,11 +397,7 @@ public class MinecraftDownloaderTask extends AsyncTask<String, String, Throwable
             //mActivity.mCrashView.setLastCrash("");
 
             try {
-                Intent mainIntent = new Intent(mActivity, MainActivity.class /* MainActivity.class */);
-                // mainIntent.addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                mActivity.startActivity(mainIntent);
+                AppContainer.getInstance().addActivityView(MainActivity.class, 1920, 1080);
             }
             catch (Throwable e) {
                 Tools.showError(mActivity, e);

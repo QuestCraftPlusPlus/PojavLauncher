@@ -99,19 +99,19 @@ public class BaseMainActivity extends BaseActivity {
 
             navDrawer = findViewById(R.id.main_navigation_view);
             gameActionListener = menuItem -> {
-                switch (menuItem.getItemId()) {
-                    case R.id.nav_forceclose: dialogForceClose(BaseMainActivity.this);
-                        break;
-                    case R.id.nav_viewlog: openLogOutput();
-                        break;
-                    case R.id.nav_debug: minecraftGLView.togglepointerDebugging();
-                        break;
-                    case R.id.nav_customkey: dialogSendCustomKey();
-                        break;
-                    case R.id.nav_mousespd: adjustMouseSpeedLive();
-                        break;
-                    case R.id.nav_customctrl: openCustomControls();
-                        break;
+                int itemId = menuItem.getItemId();
+                if (itemId == R.id.nav_forceclose) {
+                    dialogForceClose(BaseMainActivity.this);
+                } else if (itemId == R.id.nav_viewlog) {
+                    openLogOutput();
+                } else if (itemId == R.id.nav_debug) {
+                    minecraftGLView.togglepointerDebugging();
+                } else if (itemId == R.id.nav_customkey) {
+                    dialogSendCustomKey();
+                } else if (itemId == R.id.nav_mousespd) {
+                    adjustMouseSpeedLive();
+                } else if (itemId == R.id.nav_customctrl) {
+                    openCustomControls();
                 }
 
                 drawerLayout.closeDrawers();

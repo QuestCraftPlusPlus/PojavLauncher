@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.JsonSyntaxException;
+import com.qcxr.activitywrapper.AppContainer;
+
 import java.io.File;
 import java.io.IOException;
 import net.kdt.pojavlaunch.value.MinecraftAccount;
@@ -98,7 +100,6 @@ public class PojavProfile {
     public static void launch(Activity ctx, Object o) {
         PojavProfile.setCurrentProfile(ctx, o);
 
-        Intent intent = new Intent(ctx, PojavLauncherActivity.class); //MCLauncherActivity.class);
-        ctx.startActivity(intent);
+        AppContainer.getInstance().addActivityView(PojavLauncherActivity.class, 1920, 1080);
     }
 }

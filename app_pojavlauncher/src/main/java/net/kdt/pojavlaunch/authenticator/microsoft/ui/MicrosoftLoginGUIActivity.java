@@ -3,10 +3,12 @@ package net.kdt.pojavlaunch.authenticator.microsoft.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.WebResourceRequest;
@@ -16,12 +18,27 @@ import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.qcxr.activitywrapper.AppContainer;
+
 import net.kdt.pojavlaunch.R;
 
 public class MicrosoftLoginGUIActivity extends AppCompatActivity {
     public static final int AUTHENTICATE_MICROSOFT_REQUEST = 60;
     WebView webView;
     ProgressDialog waitDialog;
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks whether a hardware keyboard is available
+        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
+            AppContainer.getInstance().shouldOpenKeyboard = true;
+        } else if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
+            AppContainer.getInstance().shouldOpenKeyboard = false;
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

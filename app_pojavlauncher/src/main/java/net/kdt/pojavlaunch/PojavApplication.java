@@ -38,7 +38,6 @@ public class PojavApplication extends Application {
 				crashStream.append(" - Device: " + Build.PRODUCT + " " + Build.MODEL + "\n");
 				crashStream.append(" - Android version: " + Build.VERSION.RELEASE + "\n");
 				crashStream.append(" - Crash stack trace:\n");
-				crashStream.append(" - Launcher version: " + BuildConfig.VERSION_NAME + "\n");
 				crashStream.append(Log.getStackTraceString(th));
 				crashStream.close();
 			} catch (Throwable throwable) {

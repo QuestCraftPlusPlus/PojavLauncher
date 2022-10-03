@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.qcxr.activitywrapper.AppContainer;
+
 import net.kdt.pojavlaunch.customcontrols.ControlLayout;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
 import net.kdt.pojavlaunch.utils.JREUtils;
@@ -17,6 +19,7 @@ public class MainActivity extends BaseMainActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        AppContainer.getInstance().killOpenXR = true;
         MCXRLoader.setEGLGlobal(JREUtils.getEGLContextPtr(), JREUtils.getEGLDisplayPtr(), JREUtils.getEGLConfigPtr());
         MCXRLoader.setAndroidInitInfo(this);
         MCXRLoader.launch(this);
