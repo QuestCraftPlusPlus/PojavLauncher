@@ -35,6 +35,10 @@
       {
         "slug": "vivecraft",
         "platform": "github"
+      },
+      {
+        "slug": "starlight",
+        "platform": "modrinth"
       }
     ],
     "1.19.2": [
@@ -61,7 +65,10 @@
       {
         "slug": "vivecraft",
         "platform": "github"
-
+      },
+      {
+        "slug": "starlight",
+        "platform": "modrinth"
       }
     ]
   }
