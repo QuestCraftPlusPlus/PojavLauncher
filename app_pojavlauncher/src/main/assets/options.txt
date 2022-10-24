@@ -39,7 +39,7 @@ renderClouds:false
 resourcePacks:["vanilla","Fabric Mods"]
 incompatibleResourcePacks:[]
 lastServer:
-lang:en_us
+lang:zh_cn
 soundDevice:
 chatVisibility:0
 chatOpacity:1.0
