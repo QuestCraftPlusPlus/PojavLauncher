@@ -123,7 +123,7 @@ public class JREUtils {
                     if (logcatPb == null) {
                         logcatPb = new ProcessBuilder().command("logcat", /* "-G", "1mb", */ "-v", "brief", "-s", "jrelog:I", "LIBGL:I").redirectErrorStream(true);
                     }
-                    
+
                     Log.i("jrelog-logcat","Clearing logcat");
                     new ProcessBuilder().command("logcat", "-c").redirectErrorStream(true).start();
                     Log.i("jrelog-logcat","Starting logcat");
@@ -135,7 +135,7 @@ public class JREUtils {
                         String currStr = new String(buf, 0, len);
                         Logger.getInstance().appendToLog(currStr);
                     }
-                    
+
                     if (p.waitFor() != 0) {
                         Log.e("jrelog-logcat", "Logcat exited with code " + p.exitValue());
                         failTime++;
@@ -340,6 +340,7 @@ public class JREUtils {
                 "-Dorg.lwjgl.librarypath=" + ctx.getApplicationInfo().nativeLibraryDir,
                 "-Djna.boot.library.path=" + ctx.getApplicationInfo().nativeLibraryDir,
                 "-Djna.nosys=true",
+                "-Djava.library.path=" + ctx.getApplicationInfo().nativeLibraryDir,
 
                 //LWJGL 3 DEBUG FLAGS
                 //"-Dorg.lwjgl.util.Debug=true",
