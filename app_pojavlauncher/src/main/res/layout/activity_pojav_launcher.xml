@@ -19,17 +19,6 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/side" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/launchermainTabPager"
-        android:layout_width="566dp"
-        android:layout_height="216dp"
-        android:layout_marginBottom="8dp"
-        android:background="@android:color/transparent"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/progressDownloadBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView3" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineBottom"
         android:layout_width="wrap_content"
@@ -141,6 +130,19 @@
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.012" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/launchermainTabPager"
+        android:layout_width="553dp"
+        android:layout_height="309dp"
+        android:background="@android:color/transparent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/btnTab1"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnTab3"
