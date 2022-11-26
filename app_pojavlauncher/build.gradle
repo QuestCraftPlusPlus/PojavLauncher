@@ -140,7 +140,7 @@ dependencies {
 
     implementation "androidx.constraintlayout:constraintlayout:2.1.2"
 
-    implementation 'com.rarepebble:colorpicker:3.0.1'
+    implementation 'com.github.martin-stone:hsv-alpha-color-picker-android:3.0.1'
     implementation 'com.github.duanhong169:checkerboarddrawable:1.0.2'
 
 
@@ -150,6 +150,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //Mod manager related things
-    implementation 'us.feras.mdv:markdownview:1.1.0'
+    implementation 'com.github.falnatsheh:MarkdownView:98b0db192b'
     implementation 'com.squareup.picasso:picasso:2.8'
 }
