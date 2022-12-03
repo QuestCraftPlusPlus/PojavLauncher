@@ -192,15 +192,15 @@ jobs:
           name: fabric-api
 
       - name: Collect Vivecraft (vivecraft-1.19.2)
-          uses: dawidd6/action-download-artifact@v2
-          with:
-            github_token: ${{secrets.GITHUB_TOKEN}}
-            workflow: build.yml
-            path: app_pojavlauncher/src/main/assets/artifacts/1.19.2
-            workflow_conclusion: success
-            repo: QuestCraftPlusPlus/VivecraftMod
-            branch: YVR-1.19
-            name: vivecraft
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: build.yml
+          path: app_pojavlauncher/src/main/assets/artifacts/1.19.2
+          workflow_conclusion: success
+          repo: QuestCraftPlusPlus/VivecraftMod
+          branch: YVR-1.19
+          name: vivecraft
 
       - name: Collect TitleWorlds-1.19.2
         uses: dawidd6/action-download-artifact@v2
