@@ -8,6 +8,8 @@ on:
     branches-ignore:
       - "l10n_v3_openjdk2"
   workflow_dispatch:
+    branch:
+      - "YVR-Vivecraft"
 
 jobs:
   build:
