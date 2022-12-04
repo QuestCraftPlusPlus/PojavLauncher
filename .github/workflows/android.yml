@@ -8,6 +8,8 @@ on:
     branches-ignore:
       - "l10n_v3_openjdk2"
   workflow_dispatch:
+    branch:
+      - "YVR-Vivecraft"
 
 jobs:
   build:
@@ -149,23 +151,12 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: build.yml
+          workflow: gradle.yml
           path: app_pojavlauncher/src/main/assets/artifacts/1.18.2
           workflow_conclusion: success
           repo: QuestCraftPlusPlus/VivecraftMod
           branch: YVR
           name: vivecraft
-          
-      - name: Collect TitleWorlds-1.18.2
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: build.yml
-          path: app_pojavlauncher/src/main/assets/artifacts/1.18.2
-          workflow_conclusion: success
-          repo: QuestCraftPlusPlus/TitleWorlds
-          branch: 1.18.2
-          name: title-worlds
 
       - name: Collect lazydfu-1.19.2
         uses: dawidd6/action-download-artifact@v2
@@ -190,26 +181,15 @@ jobs:
           name: fabric-api
 
       - name: Collect Vivecraft (vivecraft-1.19.2)
-          uses: dawidd6/action-download-artifact@v2
-          with:
-            github_token: ${{secrets.GITHUB_TOKEN}}
-            workflow: build.yml
-            path: app_pojavlauncher/src/main/assets/artifacts/1.19.2
-            workflow_conclusion: success
-            repo: QuestCraftPlusPlus/VivecraftMod
-            branch: YVR-1.19
-            name: vivecraft
-
-      - name: Collect TitleWorlds-1.19.2
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: build.yml
+          workflow: gradle.yml
           path: app_pojavlauncher/src/main/assets/artifacts/1.19.2
           workflow_conclusion: success
-          repo: QuestCraftPlusPlus/TitleWorlds
-          branch: master
-          name: title-worlds
+          repo: QuestCraftPlusPlus/VivecraftMod
+          branch: YVR-1.19
+          name: vivecraft
 
       - name: Build APK with Gradle
         run: |
