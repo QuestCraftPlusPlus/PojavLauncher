@@ -16,6 +16,7 @@ public class MainActivity extends BaseMainActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        MCXRLoader.setAndroidInitInfo(this);
         MCXRLoader.launch(this);
         super.onCreate(savedInstanceState);
     }
